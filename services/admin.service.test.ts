@@ -36,8 +36,8 @@ describe("admin.service", () => {
 
   describe("getRole", () => {
     it("should return role from headers", () => {
-      const req = createMockRequest({ "x-auth-user-role": "super_admin" });
-      expect(getRole(req)).toBe("super_admin");
+      const req = createMockRequest({ "x-auth-user-role": "admin" });
+      expect(getRole(req)).toBe("admin");
     });
   });
 
@@ -47,8 +47,8 @@ describe("admin.service", () => {
       expect(isAdmin(req)).toBe(true);
     });
 
-    it("should return true for super_admin role", () => {
-      const req = createMockRequest({ "x-auth-user-role": "super_admin" });
+    it("should return true for admin role", () => {
+      const req = createMockRequest({ "x-auth-user-role": "admin" });
       expect(isAdmin(req)).toBe(true);
     });
 
@@ -64,13 +64,13 @@ describe("admin.service", () => {
   });
 
   describe("isSuperAdmin", () => {
-    it("should return true for super_admin", () => {
-      const req = createMockRequest({ "x-auth-user-role": "super_admin" });
+    it("should return true for admin", () => {
+      const req = createMockRequest({ "x-auth-user-role": "admin" });
       expect(isSuperAdmin(req)).toBe(true);
     });
 
-    it("should return false for admin", () => {
-      const req = createMockRequest({ "x-auth-user-role": "admin" });
+    it("should return false for user", () => {
+      const req = createMockRequest({ "x-auth-user-role": "user" });
       expect(isSuperAdmin(req)).toBe(false);
     });
   });

@@ -52,7 +52,7 @@ describe("auth.service", () => {
         id: "user-1",
         username: "admin",
         password: hashedPassword,
-        role: "super_admin",
+        role: "admin",
         nama: "Administrator",
         is_active: true,
       };
@@ -64,7 +64,7 @@ describe("auth.service", () => {
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.user.username).toBe("admin");
-        expect(result.user.role).toBe("super_admin");
+        expect(result.user.role).toBe("admin");
       }
     });
 

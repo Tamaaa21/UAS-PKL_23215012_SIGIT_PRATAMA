@@ -13,8 +13,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   const role = getRole(request);
-  if (role !== "super_admin") {
-    return forbidden("Hanya Super Admin yang dapat melihat data pengguna");
+  if (role !== "admin") {
+    return forbidden("Hanya admin yang dapat melihat data pengguna");
   }
 
   try {
@@ -37,8 +37,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const role = getRole(request);
-  if (role !== "super_admin") {
-    return forbidden("Hanya Super Admin yang dapat menambah pengguna");
+  if (role !== "admin") {
+    return forbidden("Hanya admin yang dapat menambah pengguna");
   }
 
   // Rate limit: 10 user creations per admin per 1 minute
@@ -73,10 +73,6 @@ export async function POST(request: NextRequest) {
 
     if (password.length < 6) {
       return NextResponse.json({ success: false, message: "Password minimal 6 karakter" }, { status: 400 });
-    }
-
-    if (newRole === "super_admin" && role !== "super_admin") {
-      return forbidden("Hanya Super Admin yang dapat membuat akun Super Admin");
     }
 
     const existing = await db.select({ id: schema.users.id })

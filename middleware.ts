@@ -19,7 +19,7 @@ const PUBLIC_GET_PATHS = [
   "/api/admin/stats/buku-tamu",
 ];
 
-const ALLOWED_ROLES_FOR_DELETE = ["super_admin", "admin"];
+const ALLOWED_ROLES_FOR_DELETE = ["admin"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -58,7 +58,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Session expired or invalid" }, { status: 401 });
   }
 
-  // RBAC: Only super_admin and admin can perform destructive operations
+  // RBAC: Only admin can perform destructive operations
   if (["DELETE", "PATCH", "PUT"].includes(method)) {
     if (!ALLOWED_ROLES_FOR_DELETE.includes(result.role || "")) {
       return NextResponse.json({ success: false, message: "Forbidden: insufficient role" }, { status: 403 });

@@ -84,7 +84,7 @@ describe("validation schemas", () => {
     });
 
     it("should accept valid roles", () => {
-      for (const role of ["super_admin", "admin", "user"]) {
+      for (const role of ["admin", "user"]) {
         const result = createUserSchema.safeParse({
           username: "user",
           password: "Admin123",

@@ -62,7 +62,7 @@ describe("API: /api/admin/login", () => {
     vi.mocked(login).mockResolvedValue({
       success: true,
       token: "test-token",
-      user: { id: "user-1", username: "admin", role: "super_admin", nama: "Administrator" },
+      user: { id: "user-1", username: "admin", role: "admin", nama: "Administrator" },
     });
 
     const req = createMockRequest({

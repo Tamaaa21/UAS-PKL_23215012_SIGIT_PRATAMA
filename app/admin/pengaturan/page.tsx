@@ -61,7 +61,7 @@ export default function PengaturanPage() {
   };
 
   const roleLabel = (role: string) => {
-    if (role === "super_admin") return "Super Admin";
+    if (role === "admin") return "Admin";
     if (role === "admin") return "Admin";
     return "Karyawan";
   };
@@ -91,7 +91,6 @@ export default function PengaturanPage() {
           <div className="space-y-1">
             <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Hak Akses</label>
             <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold ${
-              user?.role === "super_admin" ? "bg-purple-50 text-purple-700" :
               user?.role === "admin" ? "bg-blue-50 text-blue-700" :
               "bg-gray-50 text-gray-600"
             }`}>

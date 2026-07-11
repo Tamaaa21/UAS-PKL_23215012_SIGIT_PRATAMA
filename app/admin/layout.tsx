@@ -111,7 +111,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<UserInfo | null>(null);
 
-  const isAdmin = user?.role === "admin" || user?.role === "super_admin";
+  const isAdmin = user?.role === "admin";
   const userInitial = user?.nama?.charAt(0)?.toUpperCase() || user?.username?.charAt(0)?.toUpperCase() || "A";
 
   useEffect(() => {
@@ -134,7 +134,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           setLoading(false);
 
           // Redirect jika role user akses halaman admin-only
-          const isUserAdmin = data.user.role === "admin" || data.user.role === "super_admin";
+          const isUserAdmin = data.user.role === "admin";
           if (!isUserAdmin && ADMIN_ONLY_PATHS.includes(pathname)) {
             router.push("/admin/dashboard");
           }
@@ -217,7 +217,6 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
           <nav className="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent custom-scrollbar">
             {navSections.map((section, idx) => {
               if (section.adminOnly && !isAdmin) return null;
-              if (section.superAdminOnly && user?.role !== "super_admin") return null;
 
               return (
                 <div key={idx} className="space-y-1">
@@ -303,7 +302,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-3 pl-4 sm:pl-6 border-l border-slate-100">
               <div className="text-right hidden sm:block">
                 <p className="text-xs font-bold text-slate-800 leading-tight">{user?.nama || user?.username || "Administrator"}</p>
-                <p className="text-[10px] text-slate-400 font-semibold capitalize mt-0.5">{user?.role === "super_admin" ? "Super Admin" : user?.role || "Admin Access"}</p>
+                <p className="text-[10px] text-slate-400 font-semibold capitalize mt-0.5">{user?.role === "admin" ? "Admin" : "User"}</p>
               </div>
               <div className="w-9 h-9 bg-gradient-to-br from-[#003399] to-blue-600 rounded-xl flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0 shadow-md shadow-blue-500/10">
                 {userInitial}

@@ -14,10 +14,10 @@ describe("auth-edge", () => {
     });
 
     it("should contain userId, role, username in payload", async () => {
-      const token = await createSessionToken("user-123", "super_admin", "admin");
+      const token = await createSessionToken("user-123", "admin", "admin");
       const decoded = Buffer.from(token, "base64url").toString();
       expect(decoded).toContain("user-123");
-      expect(decoded).toContain("super_admin");
+      expect(decoded).toContain("admin");
       expect(decoded).toContain("admin");
     });
   });

@@ -32,6 +32,9 @@ test-login-log.ts
 .env
 .env*.local
 
+# user uploads
+public/uploads/
+
 # vercel
 .vercel
 

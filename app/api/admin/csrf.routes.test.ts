@@ -57,7 +57,7 @@ describe("CSRF Protection", () => {
       vi.mocked(login).mockResolvedValue({
         success: true,
         token: "test-token",
-        user: { id: "user-1", username: "admin", role: "super_admin", nama: "Admin" },
+        user: { id: "user-1", username: "admin", role: "admin", nama: "Admin" },
       });
 
       const req = createMockRequest({

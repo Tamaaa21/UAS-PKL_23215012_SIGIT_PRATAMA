@@ -19,8 +19,8 @@ function getId(request: NextRequest): string | undefined {
 
 export async function PATCH(request: NextRequest) {
   const role = getRole(request);
-  if (role !== "super_admin") {
-    return forbidden("Hanya Super Admin yang dapat mengubah pengguna");
+  if (role !== "admin") {
+    return forbidden("Hanya admin yang dapat mengubah pengguna");
   }
 
   try {
@@ -36,7 +36,7 @@ export async function PATCH(request: NextRequest) {
     const updateData: Record<string, unknown> = {};
     if (parsed.data.nama !== undefined) updateData.nama = parsed.data.nama;
     if (parsed.data.role !== undefined) {
-      if (parsed.data.role === "super_admin" && role !== "super_admin") {
+      if (parsed.data.role === "admin" && role !== "admin") {
         return forbidden("Hanya Super Admin yang dapat mengubah role ke Super Admin");
       }
       updateData.role = parsed.data.role;
@@ -82,8 +82,8 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   const role = getRole(request);
-  if (role !== "super_admin") {
-    return forbidden("Hanya Super Admin yang dapat menghapus pengguna");
+  if (role !== "admin") {
+    return forbidden("Hanya admin yang dapat menghapus pengguna");
   }
 
   try {

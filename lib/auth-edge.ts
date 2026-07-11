@@ -1,5 +1,5 @@
 // Edge-compatible auth utilities (no Node.js dependencies)
-// Used by middleware.ts
+// Uses HMAC-SHA256 via Web Crypto API
 
 export const COOKIE_NAME = "admin_token";
 export const CSRF_COOKIE_NAME = "csrf_token";
@@ -13,10 +13,18 @@ function getSecret(): string {
   return secret;
 }
 
-async function sha256Hex(data: string): Promise<string> {
+// HMAC-SHA256: proper key-derivation signing via Web Crypto API
+async function hmacSign(secret: string, message: string): Promise<string> {
   const encoder = new TextEncoder();
-  const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(data));
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(message));
+  const hashArray = Array.from(new Uint8Array(signature));
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
@@ -41,7 +49,7 @@ export async function verifySessionToken(token: string): Promise<{
     const parts = decoded.split(":");
     const signature = parts.pop()!;
     const payload = parts.join(":");
-    const expectedSig = await sha256Hex(payload + secret);
+    const expectedSig = await hmacSign(secret, payload);
 
     if (!timingSafeEqual(signature, expectedSig)) return { valid: false };
 
@@ -60,6 +68,6 @@ export async function createSessionToken(userId: string, role: string, username:
     .map(b => b.toString(16).padStart(2, "0")).join("");
   const iat = Date.now();
   const payload = `${userId}:${role}:${username}:${random}:${iat}`;
-  const signature = await sha256Hex(payload + secret);
+  const signature = await hmacSign(secret, payload);
   return Buffer.from(payload + ":" + signature).toString("base64url");
 }

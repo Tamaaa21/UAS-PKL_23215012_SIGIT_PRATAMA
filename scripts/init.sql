@@ -1,5 +1,5 @@
 -- MySQL Schema for BMKG Maritim Tegal
--- Run: mysql -u root -p < scripts/init.sql
+-- Run: mysql -u root - < pscripts/init.sql
 
 CREATE DATABASE IF NOT EXISTS bmkg_maritim CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE bmkg_maritim;

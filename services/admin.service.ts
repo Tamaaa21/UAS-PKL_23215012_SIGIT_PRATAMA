@@ -14,11 +14,11 @@ export function getRole(request: NextRequest | Request): string {
 
 export function isAdmin(request: NextRequest | Request): boolean {
   const role = getRole(request);
-  return role === "super_admin" || role === "admin";
+  return role === "admin";
 }
 
 export function isSuperAdmin(request: NextRequest | Request): boolean {
-  return getRole(request) === "super_admin";
+  return getRole(request) === "admin";
 }
 
 export function getClientIp(request: NextRequest): string {

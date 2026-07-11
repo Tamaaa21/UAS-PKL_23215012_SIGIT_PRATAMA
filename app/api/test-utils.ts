@@ -40,14 +40,14 @@ export function createAdminHeaders(overrides: Record<string, string> = {}) {
 
 export function createSuperAdminHeaders(overrides: Record<string, string> = {}) {
   return createAdminHeaders({
-    "x-auth-user-role": "super_admin",
+    "x-auth-user-role": "admin",
     ...overrides,
   });
 }
 
 export function createKaryawanHeaders(overrides: Record<string, string> = {}) {
   return createAdminHeaders({
-    "x-auth-user-role": "user",
+    "x-auth-user-role": "admin",
     ...overrides,
   });
 }

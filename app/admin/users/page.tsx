@@ -234,17 +234,13 @@ export default function UsersManager() {
                     </td>
                     <td className="py-3 px-3 text-gray-600 hidden sm:table-cell">{user.nama || "-"}</td>
                     <td className="py-3 px-3">
-                      {user.role === "super_admin" ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-purple-50 text-purple-700 rounded-full text-[10px] font-bold">
-                          <Shield size={10} /> Super Admin
-                        </span>
-                      ) : user.role === "admin" ? (
+                      {user.role === "admin" ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-bold">
                           <Shield size={10} /> Admin
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-50 text-gray-600 rounded-full text-[10px] font-bold">
-                          Karyawan
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-50 text-gray-700 rounded-full text-[10px] font-bold">
+                          User
                         </span>
                       )}
                     </td>
@@ -276,15 +272,13 @@ export default function UsersManager() {
                         >
                           {user.is_active ? <ShieldOff size={14} /> : <Shield size={14} />}
                         </button>
-                        {user.role !== "super_admin" && (
-                          <button
-                            onClick={() => handleDelete(user)}
-                            className="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors"
-                            title="Hapus"
-                          >
-                            <Trash2 size={14} />
-                          </button>
-                        )}
+                        <button
+                          onClick={() => handleDelete(user)}
+                          className="p-2 hover:bg-red-50 rounded-lg text-red-500 transition-colors"
+                          title="Hapus"
+                        >
+                          <Trash2 size={14} />
+                        </button>
                       </div>
                     </td>
                   </tr>
