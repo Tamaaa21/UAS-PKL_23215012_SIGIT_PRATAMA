@@ -2,6 +2,7 @@
 
 Portal informasi cuaca maritim dan layanan publik berbasis Next.js untuk Stasiun Meteorologi Maritim Tegal – BMKG.
 
+# SIGIT PRATAMA / 23215012
 ## Teknologi Utama
 
 - **Framework:** Next.js 16 (React 19 + TypeScript)
