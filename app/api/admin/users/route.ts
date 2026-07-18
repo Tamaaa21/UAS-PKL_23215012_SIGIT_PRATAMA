@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   // Rate limit: 10 user creations per admin per 1 minute
   const userId = getUserId(request);
-  const rateCheck = checkRateLimit(`create-user:${userId}`, 10, 60 * 1000);
+  const rateCheck = await checkRateLimit(`create-user:${userId}`, 10, 60 * 1000);
   if (!rateCheck.allowed) {
     return NextResponse.json(
       { success: false, message: "Terlalu banyak permintaan. Silakan coba lagi nanti." },

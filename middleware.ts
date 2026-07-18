@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { COOKIE_NAME, CSRF_COOKIE_NAME, verifySessionToken } from "@/lib/auth-edge";
+import { isTokenBlacklisted } from "@/lib/auth";
 
 const PUBLIC_ADMIN_PATHS = ["/api/admin/login"];
 
@@ -56,6 +57,11 @@ export async function middleware(request: NextRequest) {
   const result = await verifySessionToken(token);
   if (!result.valid) {
     return NextResponse.json({ success: false, message: "Session expired or invalid" }, { status: 401 });
+  }
+
+  // Check if token has been blacklisted (logged out)
+  if (result.jti && await isTokenBlacklisted(result.jti)) {
+    return NextResponse.json({ success: false, message: "Session已被注销" }, { status: 401 });
   }
 
   // RBAC: Only admin can perform destructive operations

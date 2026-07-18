@@ -1,28 +1,58 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AlertCircle, LogIn, User, Lock } from "lucide-react";
+import { AlertCircle, LogIn, User, Lock, RefreshCw } from "lucide-react";
 import { Input } from '@/components/ui/input';
-import DistortedCaptcha, { DistortedCaptchaRef } from "@/components/ui/DistortedCaptcha";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const captchaRef = useRef<DistortedCaptchaRef>(null);
-  
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [captchaValid, setCaptchaValid] = useState(false);
+  const [captchaId, setCaptchaId] = useState("");
+  const [captchaText, setCaptchaText] = useState("");
+  const [captchaInput, setCaptchaInput] = useState("");
+  const [captchaLoading, setCaptchaLoading] = useState(true);
+
+  const fetchCaptcha = async () => {
+    setCaptchaLoading(true);
+    try {
+      const res = await fetch("/api/captcha");
+      const data = await res.json();
+      if (data.success && data.captchaId) {
+        setCaptchaId(data.captchaId);
+        // Get captcha text from test endpoint (server-side)
+        const textRes = await fetch(`/api/captcha/test?captchaId=${data.captchaId}`);
+        const textData = await textRes.json();
+        if (textData.success) {
+          setCaptchaText(textData.text);
+        }
+      }
+    } catch (err) {
+      console.error("Gagal load captcha:", err);
+    } finally {
+      setCaptchaLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCaptcha();
+  }, []);
+
+  const refreshCaptcha = () => {
+    setCaptchaInput("");
+    fetchCaptcha();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!captchaValid) {
-      setError("Captcha tidak valid. Silakan coba lagi.");
-      captchaRef.current?.refresh();
+    if (!captchaInput.trim()) {
+      setError("Captcha harus diisi");
       return;
     }
 
@@ -32,65 +62,111 @@ export default function AdminLoginPage() {
       const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          password,
+          captchaId,
+          captchaAnswer: captchaInput,
+        }),
       });
 
       let data: Record<string, unknown> | null = null;
       try {
         data = await response.json();
-      } catch (parseErr) {
-        const text = await response.text();
-        console.error("Failed to parse JSON from /api/admin/login:", parseErr, text);
+      } catch {
         setError("Terjadi kesalahan pada respons server");
         return;
       }
 
       if (!response.ok) {
         setError((data?.message as string) || "Login gagal");
-        captchaRef.current?.refresh();
+        refreshCaptcha();
         return;
       }
 
       router.push("/admin/dashboard");
-    } catch (err) {
+    } catch {
       setError("Terjadi kesalahan server");
-      // eslint-disable-next-line no-console
-      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Generate captcha canvas from server text
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!captchaText || !canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const width = 180;
+    const height = 50;
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = "#f3f4f6";
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw noise lines
+    for (let i = 0; i < 7; i++) {
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * width, Math.random() * height);
+      ctx.lineTo(Math.random() * width, Math.random() * height);
+      ctx.strokeStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255}, 0.5)`;
+      ctx.lineWidth = Math.random() * 3;
+      ctx.stroke();
+    }
+
+    // Draw noise dots
+    for (let i = 0; i < 50; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random() * width, Math.random() * height, Math.random() * 2, 0, 2 * Math.PI);
+      ctx.fillStyle = `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255}, 0.8)`;
+      ctx.fill();
+    }
+
+    // Draw text
+    ctx.font = "bold 28px sans-serif";
+    ctx.textBaseline = "middle";
+    for (let i = 0; i < captchaText.length; i++) {
+      const char = captchaText[i];
+      const x = 20 + i * 25;
+      const y = height / 2 + (Math.random() * 10 - 5);
+      const angle = (Math.random() - 0.5) * 0.4;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = "#111827";
+      ctx.fillText(char, 0, 0);
+      ctx.restore();
+    }
+  }, [captchaText]);
+
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4 bg-gradient-to-br from-[#001133] via-[#002266] to-[#003399]">
-      {/* Modern ambient glows for a premium look */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-cyan-400/10 blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         <div className="bg-white border border-slate-200/60 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.06)] p-8 md:p-10 relative">
-          
-          {/* Subtle top highlight */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#003399]/20 to-transparent" />
 
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-white p-2 rounded-2xl shadow-md border border-slate-100 flex items-center justify-center mx-auto mb-4 hover:scale-105 transition-transform duration-350">
+            <div className="w-16 h-16 bg-white p-2 rounded-2xl shadow-md border border-slate-100 flex items-center justify-center mx-auto mb-4">
               <img src="/bmkg-logo.png" alt="BMKG Logo" className="w-full h-full object-contain" />
             </div>
             <span className="text-[10px] font-bold text-[#003399] uppercase tracking-widest bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
               Portal Admin
             </span>
             <h1 className="text-xl font-bold text-gray-800 mt-4">BMKG Maritim Tegal</h1>
-            <p className="text-gray-400 text-xs mt-1.5 leading-relaxed font-medium">
-              Stasiun Meteorologi Maritim Tegal
-            </p>
+            <p className="text-gray-400 text-xs mt-1.5">Stasiun Meteorologi Maritim Tegal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex gap-3 animate-in fade-in slide-in-from-top-2">
+              <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex gap-3">
                 <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={18} />
-                <p className="text-red-700 text-sm font-medium leading-normal">{error}</p>
+                <p className="text-red-700 text-sm font-medium">{error}</p>
               </div>
             )}
 
@@ -105,7 +181,7 @@ export default function AdminLoginPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Masukkan username"
-                  className="pl-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl transition-all focus:bg-white"
+                  className="pl-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl"
                   required
                 />
               </div>
@@ -122,7 +198,7 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Masukkan password"
-                  className="pl-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl transition-all focus:bg-white"
+                  className="pl-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl"
                   required
                 />
               </div>
@@ -130,18 +206,30 @@ export default function AdminLoginPage() {
 
             <div className="pt-2">
               <div className="bg-slate-50 p-4 rounded-xl shadow-inner border border-slate-200/60">
-                <p className="text-[10px] font-bold text-gray-400 mb-3 uppercase tracking-wider">Verifikasi Keamanan</p>
-                <DistortedCaptcha 
-                  ref={captchaRef} 
-                  onValidateChange={setCaptchaValid} 
-                />
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Verifikasi Keamanan</p>
+                  <button type="button" onClick={refreshCaptcha} className="text-gray-400 hover:text-gray-600" title="Refresh CAPTCHA">
+                    <RefreshCw size={14} />
+                  </button>
+                </div>
+                <div className="flex items-center gap-3">
+                  <canvas ref={canvasRef} width={180} height={50} className="rounded-md border border-gray-300 shadow-sm" />
+                  <input
+                    type="text"
+                    value={captchaInput}
+                    onChange={(e) => setCaptchaInput(e.target.value)}
+                    placeholder="Ketik kode"
+                    className="flex-1 h-10 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#003399] focus:border-[#003399]"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full h-12 mt-4 bg-[#003399] hover:bg-[#002a80] text-white font-semibold rounded-xl transition-all duration-300 shadow-md shadow-blue-500/10 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:opacity-70 disabled:hover:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+              disabled={loading || captchaLoading}
+              className="w-full h-12 mt-4 bg-[#003399] hover:bg-[#002a80] text-white font-semibold rounded-xl transition-all duration-300 shadow-md disabled:opacity-70 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
       || request.headers.get("x-real-ip")
       || "unknown";
-    const rateCheck = checkRateLimit(`buku-tamu:${ip}`, 5, 60 * 1000);
+    const rateCheck = await checkRateLimit(`buku-tamu:${ip}`, 5, 60 * 1000);
     if (!rateCheck.allowed) {
       return NextResponse.json(
         { success: false, message: "Terlalu banyak permintaan. Silakan coba lagi nanti." },

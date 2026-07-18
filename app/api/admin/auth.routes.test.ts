@@ -47,6 +47,29 @@ vi.mock("@/lib/activity-log", () => ({
   logActivity: vi.fn(),
 }));
 
+// Mock captcha validation - always succeed
+const mockCaptchaChain = {
+  from: vi.fn().mockReturnThis(),
+  where: vi.fn().mockReturnThis(),
+  limit: vi.fn().mockResolvedValue([{ id: "test-captcha-id", text: "ABC123" }]),
+};
+vi.mock("@/db", () => ({
+  db: {
+    select: vi.fn(() => mockCaptchaChain),
+    from: vi.fn(() => mockCaptchaChain),
+    where: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockResolvedValue([{ id: "test-captcha-id", text: "ABC123" }]),
+    insert: vi.fn(() => ({ values: vi.fn().mockResolvedValue([]) })),
+    delete: vi.fn(() => ({ where: vi.fn().mockResolvedValue([]) })),
+    update: vi.fn(() => ({ set: vi.fn().mockReturnThis(), where: vi.fn().mockResolvedValue([]) })),
+  },
+  schema: {
+    users: { id: "id", username: "username", password: "password", role: "role", nama: "nama", is_active: "is_active", created_at: "created_at" },
+    login_logs: { id: "id", user_id: "user_id", username: "username", ip_address: "ip_address", user_agent: "user_agent", aktivitas: "aktivitas" },
+    captcha_sessions: { id: "id", text: "text", expires_at: "expires_at" },
+  },
+}));
+
 import { login, recordLoginLog, getCurrentUser } from "@/services/auth.service";
 import { POST as loginPOST } from "./login/route";
 import { POST as logoutPOST } from "./logout/route";
@@ -67,7 +90,7 @@ describe("API: /api/admin/login", () => {
 
     const req = createMockRequest({
       method: "POST",
-      body: { username: "admin", password: "admin123" },
+      body: { username: "admin", password: "admin123", captchaId: "test-captcha-id", captchaAnswer: "ABC123" },
     });
 
     const response = await loginPOST(req);
@@ -92,7 +115,7 @@ describe("API: /api/admin/login", () => {
 
     const req = createMockRequest({
       method: "POST",
-      body: { username: "admin", password: "wrong" },
+      body: { username: "admin", password: "wrong", captchaId: "test-captcha-id", captchaAnswer: "ABC123" },
     });
 
     const response = await loginPOST(req);
@@ -104,11 +127,21 @@ describe("API: /api/admin/login", () => {
 
     const req = createMockRequest({
       method: "POST",
-      body: { username: "admin", password: "admin123" },
+      body: { username: "admin", password: "admin123", captchaId: "test-captcha-id", captchaAnswer: "ABC123" },
     });
 
     const response = await loginPOST(req);
     expect(response.status).toBe(500);
+  });
+
+  it("should return 400 when captcha missing", async () => {
+    const req = createMockRequest({
+      method: "POST",
+      body: { username: "admin", password: "admin123" },
+    });
+
+    const response = await loginPOST(req);
+    expect(response.status).toBe(400);
   });
 });
 

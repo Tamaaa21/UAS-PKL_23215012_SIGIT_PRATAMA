@@ -1,0 +1,1217 @@
+
+
+
+
+disusun oleh :
+
+SIGIT PRATAMA 23215012
+
+PROGRAM STUDI SARJANA TEKNIK INFORMATIKA FAKULTAS SAINS DAN TEKNOLOGI
+UNIVERSITAS HARKAT NEGERI 2026
+
+HALAMAN JUDUL
+
+
+
+disusun oleh :
+
+SIGIT PRATAMA 23215012
+
+PROGRAM STUDI SARJANA TEKNIK INFORMATIKA FAKULTAS SAINS DAN TEKNOLOGI
+UNIVERSITAS HARKAT NEGERI 2026
+
+
+
+
+
+
+
+
+ii
+
+
+HALAMAN PERSETUJUAN
+
+
+LAPORAN PRAKTIK KERJA LAPANGAN
+
+
+PENGEMBANGAN DASHBOARD ADMINISTRASI PADA SISTEM INFORMASI BMKG STASIUN METEOROLOGI MARITIM TEGAL MENGGUNAKAN NEXT.JS
+
+
+Yang disusun dan di ajukan oleh : Sigit Pratama
+23215012
+
+
+
+Telah di setujui oleh Dosen Pembimbing PKL Pada tanggal : .... Juli 2026
+
+
+Dosen Pembimbing,
+
+
+
+
+Nama Dosen Pembimbing NIPY.
+
+
+
+
+
+
+
+
+
+
+
+
+
+iii
+
+
+HALAMAN PENGESAHAN
+LAPORAN PRAKTIK KERJA LAPANGAN
+
+
+PENGEMBANGAN DASHBOARD ADMINISTRASI PADA SISTEM INFORMASI BMKG STASIUN METEOROLOGI MARITIM TEGAL MENGGUNAKAN NEXT.JS
+
+Diajukan
+Sebagai Salah Satu Syarat Untuk Mengambil Mata Kuliah
+PRAKTIK KERJA LAPANGAN (PKL)
+Program Studi S1 Teknik Informatika
+
+
+Oleh  :
+Sigit Pratama 23215012
+
+
+
+
+MenyetujuiTegal, .... juli 2026Dosen Penguji,Pembimbing PKL Instansi
+Dosen Penguji
+Pembimbing PKLNIPY.NIP.
+MengetahuiKa Prodi S1 Teknik Informatika
+Aang Alim Murtopo, M.Kom.NIPY.
+
+iv
+
+
+KATA PENGANTAR
+
+
+Dengan memanjatkan puji syukur kehadirat Allah SWT, Tuhan Yang Maha Pengasih dan Maha Penyayang yang telah melimpahkan segala rahmat, hidayah dan inayah-Nya hingga terselesaikannya Praktik Kerja Lapangan yang disusun sebagai laporan Kerja Praktik dengan judul " PENGEMBANGAN DASHBOARD ADMINISTRASI PADA SISTEM INFORMASI BMKG STASIUN METEOROLOGI MARITIM TEGAL MENGGUNAKAN NEXT.JS ".
+      Praktik Kerja Lapangan merupakan suatu kewajiban yang harus dilaksanakan untuk memenuhi sebagian persyaratan dalam mengambil mata kuliah Skripsi pada program Studi S1 Teknik Informatika Universitas Harkat Negeri. Selama melaksanakan Praktik Kerja Lapangan dan kemudian tersusun dalam laporan Praktik Kerja Lapangan ini, banyak pihak yang telah memberikan bantuan, dukungan dan bimbingan.
+      Pada kesempatan ini, tidak lupa diucapkan terima kasih yang sebesar- besarnya kepada:
+1. Bapak Sudirman Said. Ak,. MBA selaku Rektor Universitas Harkat Negeri.
+2. Bapak Aang Alim Murtopo, M.Kom. selaku Ketua Program Studi S1 Teknik Informatika Universitas Harkat Negeri.
+3. Bapak Eko Budihartono selaku Dosen Pembimbing Kerja Praktik
+4. Bapak Kaharudin selaku pimpinan Lembaga BMKG stasiun meteorologi maritim tegal
+5. Bapak Willy Yudha selaku pembimbing pada Lembaga BMKG stasiun meteorologi maritim tegal
+6. Semua pihak yang	telah	mendukung,	membantu	serta mendoakan penyelesaian penelitian ini.
+Semoga	laporan	kerja	Praktik	ini	dapat	memberikan	sumbangan	untuk pengembangan ilmu pengetahuan dan teknologi.
+
+Tegal, Juli 2026
+
+
+
+v
+
+
+DAFTAR ISI
+
+Halaman
+
+HALAMAN JUDUL	ii
+HALAMAN PERSETUJUAN	iii
+HALAMAN PENGESAHAN	iv
+KATA PENGANTAR	v
+DAFTAR ISI	vi
+DAFTAR GAMBAR	xi
+DAFTAR TABEL	xiii
+BAB I	PENDAHULUAN	1
+1.1 Latar Belakang	1
+1.2 Rumusan Masalah	3
+1.3 Batasan Masalah	4
+1.4 Tujuan PKL	4
+1.4.1 Tujuan Umum	5
+1.4.2 Tujuan Khusus	5
+1.5 Manfaat PKL	6
+1.5.1 Manfaat bagi Universitas Harkat Negeri	6
+1.5.2 Manfaat bagi Program Studi	6
+1.5.3 Manfaat Bagi Mitra	7
+vi
+1.5.4 Manfaat bagi Mahasiswa	7
+BAB II	GAMBARAN UMUM PKL	8
+2.1 Sejarah Perkembangan Perusahaan	8
+2.2 Visi, Misi, dan Tujuan	9
+2.2.1 Visi BMKG	9
+2.2.2 Misi BMKG	9
+2.2.3 Tujuan BMKG	10
+2.3 Struktur Organisasi	10
+2.4 Deskripsi Tugas dan Tanggung Jawab	11
+BAB III	METODE PELAKSANAAN	13
+3.1 Bidang Kerja dan Tugas PKL	13
+3.2 Tugas Umum	14
+3.3 Tugas Khusus	14
+3.3.1 Deskripsi Tugas Khusus	15
+3.4 Analisis Permasalahan dan Solusi PKL	15
+3.5 Analisis Kebutuhan Sistem	17
+3.5.1 Analisis Sistem Lama	19
+3.5.2 Analisis Kebutuhan Fungsional	20
+3.5.3 Analisis Kebutuhan NonFungsional	21
+3.6 Metode Pengembangan dan Arsitektur Sistem	22
+vii
+3.6.1 Metode Pengembangan Sistem	23
+3.6.2 Arsitektur Dashboard Administrasi	25
+3.6.3 Teknologi dan Perangkat Pengembang	27
+3.7 Perancangan Sistem	28
+3.7.1 Use Case Diagram	28
+3.7.2 Flowchart Autentikasi	30
+3.8 Perancangan Basis Data	33
+3.8.1 Entity Relationship Diagram (ERD)	33
+3.8.2 Skema Database	35
+3.9 Perancangan Antarmuka Pengguna	37
+BAB IV	HASIL YANG DICAPAI	39
+4.1 Implementasi Fitur Dashboard Administrasi	39
+4.1.1 Halaman Login	39
+4.1.2 Dashboard Statistik	40
+4.1.3 Manajemen Prakiraan Cuaca	41
+4.1.4 Manajemen Publikasi	42
+4.1.5 Manajemen Dokumentasi Kegiatan	43
+4.1.6 Hero Slider	43
+4.1.7 Manajemen Struktur Organisasi	44
+4.1.8 Manajemen Buku Tamu	45
+viii
+4.1.9 Manajemen Layanan	46
+4.1.10 Display Manager	47
+4.1.11 Manajemen Pengguna	47
+4.1.12 Riwayat Aktivitas Pengguna	48
+4.1.13 Pengaturan Akun	49
+4.2 Implementasi Keamanan Sistem	50
+4.2.1 Autentikasi Menggunakan Token Sesi Kustom	50
+4.2.2 Hashing Password Menggunakan bcrypt	52
+4.2.3 Role Based Access Control (RBAC)	52
+4.2.4 Custom CAPTCHA	53
+4.2.5 CSRF Protection	53
+4.2.6 Rate Limiting	53
+4.2.7 Activity Logging	54
+4.2.8 Security Headers	56
+4.2.9 Optimasi Gambar Menggunakan Format WebP	56
+4.3 Pengujian Sistem	58
+4.3.1 Pengujian Menggunakan Vitest	58
+4.3.2 Pengujian Menggunakan Playwright	59
+4.3.3 Pengujian Continuous Integration	60
+BAB V	PENUTUP	62
+ix
+5.1 Kesimpulan	62
+5.2 Saran	63
+5.2.1 Saran untuk BMKG Stasiun Meteorologi Maritim Tegal	64
+5.2.2 Saran untuk Program Studi Teknik Informatika	64
+DAFTAR PUSTAKA	66
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+x
+
+
+DAFTAR GAMBAR
+
+                                                           Halaman Gambar 2.1 Struktur Organisasi BMKG Stasiun Meteorologi Maritim Tegal	11
+Gambar 3.1 tahapan analisis	17
+Gambar 3.2 tahapan metode Iterative Development	25
+Gambar 3.3 arsitektur aplikasi dashboard administrasi	26
+Gambar 3.4 usecase diagram	29
+Gambar 3.5 flowchart autentikasi	32
+Gambar 3.6 Entity Relationship Diagram (ERD)	34
+Gambar 3.7 rancangan antarmuka dashboard administrasi	38
+Gambar 4.1 Tampilan Halaman Login Dashboard Administrasi	40
+Gambar 4.2 Tampilan Dashboard Statistik	41
+Gambar 4.3 Tampilan Modul Manajemen Prakiraan Cuaca	42
+Gambar 4.4 Tampilan Modul Manajemen Publikasi	42
+Gambar 4.5 Tampilan Modul Dokumentasi Kegiatan	43
+Gambar 4.6 Tampilan Modul Hero Slider	44
+Gambar 4.7 Tampilan Modul Manajemen Struktur Organisasi	45
+Gambar 4.8 Tampilan Modul Manajemen Buku Tamu	46
+Gambar 4.9 Tampilan Modul Manajemen Layanan	46
+Gambar 4.10 Tampilan Modul Display Manager	47
+Gambar 4.11 Tampilan Modul Manajemen Pengguna	48
+Gambar 4.12 Tampilan Modul Riwayat Aktivitas Pengguna	49
+Gambar 4.13 Tampilan Modul Pengaturan Akun	50
+xi
+
+Gambar 4.14 Diagram Proses Autentikasi Token Sesi	51
+Gambar 4.15 Tampilan Halaman Riwayat Aktivitas	55
+Gambar 4.16 Hasil Pengujian Vitest	59
+Gambar 4.17 Hasil Pengujian Playwright	60
+Gambar 4.18 Hasil Pengujian GitHub Actions	61
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xii
+
+
+
+
+DAFTAR TABEL
+
+                                                           Halaman Tabel 3.1 Permasalahan dan Solusi Pengembangan	19
+Tabel 3.2 Rangkuman kebutuhan fungsional	21
+Tabel 3.3 Rangkuman kebutuhan nonfungsional	22
+Tabel 3.4 Teknologi dan Perangkat Pengembang	27
+Tabel 3.5 Use Case	30
+Tabel 3.6 Skema Database Sistem Dashboard Administrasi	35
+Tabel 4.1 Hak Akses Pengguna Berdasarkan Role	52
+Tabel 4.2 Batas Maksimum Rate Limiting	54
+Tabel 4.3 activity logging	55
+Tabel 4.4 Daftar Security Headers yang Diterapkan	56
+Tabel 4.5 Hasil Pengujian Vitest	58
+Tabel 4.6 Hasil Pengujian Playwright	60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+xiii
+
+
+
+
+
+
+
+
+
+
+
+    BAB I PENDAHULUAN
+
+
+1.1 Latar Belakang
+
+     Perkembangan teknologi informasi yang pesat mendorong berbagai instansi pemerintah untuk terus melakukan pembaruan sistem digital guna meningkatkan kualitas layanan kepada masyarakat. Sistem berbasis web telah menjadi salah satu solusi utama karena mampu menyediakan akses informasi secara cepat, fleksibel, dan dapat digunakan pada berbagai perangkat tanpa memerlukan instalasi perangkat lunak tambahan[1].
+     Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) merupakan lembaga pemerintah yang memiliki tugas utama dalam menyediakan informasi terkait cuaca, iklim, serta kondisi meteorologi maritim di Indonesia[2]. Salah satu unit pelaksana teknisnya adalah Stasiun Meteorologi Maritim Tegal yang berperan dalam penyediaan informasi cuaca maritim untuk mendukung keselamatan pelayaran, aktivitas nelayan, serta kebutuhan informasi masyarakat di wilayah pesisir Pantai Utara Jawa[3].
+     Berdasarkan hasil observasi selama pelaksanaan Praktik Kerja Lapangan (PKL) di BMKG Stasiun Meteorologi Maritim Tegal, sistem
+
+
+1
+
+
+informasi yang digunakan sebelumnya dikembangkan menggunakan framework Laravel dan masih digunakan hingga saat ini. Namun, berdasarkan hasil diskusi dengan pembimbing lapangan, dashboard administrasi yang tersedia dinilai belum sepenuhnya memenuhi kebutuhan pengguna. Beberapa kendala yang ditemukan antara lain tampilan antarmuka yang kurang responsif pada perangkat bergerak, belum tersedianya fitur pencatatan aktivitas pengguna (activity logging), belum diterapkannya mekanisme pembatasan akses berbasis peran (Role-Based Access Control/RBAC), serta belum adanya perlindungan tambahan seperti CSRF Protection dan Rate Limiting.
+     Untuk mengatasi permasalahan tersebut, diperlukan pengembangan dashboard administrasi yang lebih modern, aman, dan mudah digunakan. Dalam kegiatan PKL ini, mahasiswa diberikan kesempatan untuk membangun ulang dashboard administrasi menggunakan framework Next.js. Framework ini dipilih karena mendukung Server Side Rendering (SSR) yang menghasilkan performa lebih baik dibandingkan pendekatan Client Side Rendering (CSR) konvensional, mendukung pengembangan aplikasi modern berbasis React, memiliki sistem routing berbasis file yang terstruktur, serta memungkinkan pembuatan antarmuka yang lebih responsif dan mudah dikembangkan[4].
+     Selain pengembangan antarmuka, sistem yang dibangun juga menerapkan berbagai fitur keamanan seperti autentikasi berbasis token sesi kustom, pengamanan password menggunakan bcrypt, penerapan Role-Based
+
+
+Access Control (RBAC), audit logging, rate limiting, CSRF protection, dan custom CAPTCHA berbasis teks[5]. Sistem juga dilengkapi dengan pengujian otomatis menggunakan Vitest dan Playwright serta proses Continuous Integration menggunakan GitHub Actions untuk memastikan setiap fitur berjalan sesuai dengan kebutuhan[6].
+     Berdasarkan uraian tersebut, maka dalam pelaksanaan Praktik Kerja Lapangan ini diangkat judul "Pengembangan Dashboard Administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal Menggunakan Next.js".
+1.2 Rumusan Masalah
+
+     Berdasarkan latar belakang yang telah diuraikan, maka rumusan masalah dalam kegiatan Praktik Kerja Lapangan ini adalah sebagai berikut.
+1. Bagaimana mengembangkan dashboard administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal agar memiliki tampilan antarmuka yang lebih modern, responsif, dan mudah digunakan?
+2. Bagaimana mengimplementasikan dashboard administrasi menggunakan framework Next.js untuk mendukung pengelolaan data dan konten pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal.
+3. Bagaimana menerapkan mekanisme keamanan pada dashboard administrasi melalui penggunaan autentikasi berbasis token sesi kustom, Role-Based Access Control (RBAC), audit logging, rate limiting, CSRF Protection, serta custom CAPTCHA berbasis teks?
+
+
+1.3 Batasan Masalah
+
+     Agar pembahasan dalam kegiatan Praktik Kerja Lapangan ini lebih terfokus dan terarah, maka ditetapkan batasan masalah sebagai berikut.
+1. Pengembangan hanya mencakup sisi dashboard administrasi (back-end panel/CMS) dan tidak meliputi pengembangan halaman publik website BMKG Stasiun Meteorologi Maritim Tegal.
+2. Sistem dikembangkan menggunakan framework Next.js versi 16 dengan dukungan React 19 dan TypeScript, serta MySQL sebagai basis data dengan Drizzle ORM.
+3. Mekanisme keamanan yang diterapkan meliputi autentikasi berbasis token sesi kustom, bcrypt, RBAC dengan dua tingkatan peran (admin dan user), CSRF Protection, Rate Limiting, custom CAPTCHA, Activity Logging, dan Security Headers.
+4. Pengujian sistem dilakukan menggunakan Vitest untuk pengujian unit dan integrasi, Playwright untuk pengujian end-to-end, serta GitHub Actions untuk proses Continuous Integration.
+5. Sistem dikembangkan dan diuji pada lingkungan lokal (localhost) selama periode pelaksanaan PKL.
+1.4 Tujuan PKL
+
+     Pelaksanaan Praktik Kerja Lapangan (PKL) ini memiliki tujuan yang dibedakan menjadi tujuan umum dan tujuan khusus, yang dijelaskan sebagai berikut.
+
+
+1.4.1 Tujuan Umum
+
+     Tujuan umum pelaksanaan Praktik Kerja Lapangan (PKL) adalah untuk memberikan pengalaman kerja nyata kepada mahasiswa serta menerapkan ilmu pengetahuan dan keterampilan yang telah diperoleh selama perkuliahan, khususnya dalam bidang pengembangan sistem informasi berbasis web. Selain itu, kegiatan PKL bertujuan untuk meningkatkan kemampuan mahasiswa dalam beradaptasi dengan lingkungan kerja profesional serta memahami proses pengembangan perangkat lunak pada instansi pemerintah.
+1.4.2 Tujuan Khusus
+
+     Tujuan khusus yang ingin dicapai dalam pelaksanaan Praktik Kerja Lapangan ini adalah sebagai berikut.
+1. Mengembangkan dashboard administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal menggunakan framework Next.js.
+2. Mengimplementasikan fitur pengelolaan konten (Content Management System/CMS) yang meliputi manajemen prakiraan cuaca, publikasi, dokumentasi kegiatan, layanan, struktur organisasi, buku tamu, display digital, serta manajemen pengguna.
+3. Menerapkan mekanisme keamanan sistem melalui penggunaan autentikasi berbasis token sesi kustom, pengamanan kata sandi menggunakan bcrypt, Role-Based Access Control (RBAC) dengan
+
+
+dua tingkatan peran (admin dan user), audit logging, rate limiting, CSRF Protection, dan custom CAPTCHA berbasis teks.
+1.5 Manfaat PKL
+
+     Pelaksanaan Praktik Kerja Lapangan (PKL) diharapkan memberikan manfaat bagi berbagai pihak yang terlibat, baik bagi universitas, instansi tempat PKL, maupun mahasiswa. Adapun manfaat tersebut dijelaskan sebagai berikut.
+
+
+1.5.1 Manfaat bagi Universitas Harkat Negeri
+
+     Pelaksanaan Praktik Kerja Lapangan (PKL) diharapkan dapat mempererat hubungan kerja sama antara Universitas Harkat Negeri dengan BMKG Stasiun Meteorologi Maritim Tegal. Selain itu, kegiatan PKL dapat menjadi sarana evaluasi bagi universitas dalam menyesuaikan kurikulum pembelajaran dengan kebutuhan dunia kerja, khususnya pada bidang pengembangan sistem informasi dan teknologi web.
+1.5.2 Manfaat bagi Program Studi
+
+     Pelaksanaan PKL dapat menjadi salah satu bentuk implementasi capaian pembelajaran Program Studi, khususnya pada bidang pengembangan perangkat lunak dan sistem informasi. Pengalaman mahasiswa selama PKL juga dapat menjadi bahan evaluasi dan masukan bagi program studi dalam mengembangkan kurikulum agar tetap relevan dengan perkembangan teknologi informasi yang digunakan di industri maupun instansi pemerintah
+
+
+1.5.3 Manfaat Bagi Mitra
+
+     Kegiatan PKL diharapkan dapat memberikan kontribusi positif bagi BMKG Stasiun Meteorologi Maritim Tegal melalui pengembangan dashboard administrasi yang lebih modern, responsif, dan aman. Dashboard yang dikembangkan dapat membantu administrator dalam mengelola informasi, publikasi, dokumentasi kegiatan, layanan, serta data pengguna secara lebih efektif dan efisien. Penerapan fitur keamanan seperti autentikasi berbasis token sesi kustom, RBAC, audit logging, rate limiting, CSRF Protection, dan custom CAPTCHA diharapkan dapat meningkatkan keamanan sistem informasi yang digunakan.
+1.5.4 Manfaat bagi Mahasiswa
+
+     Melalui kegiatan PKL, mahasiswa memperoleh pengalaman dalam menerapkan ilmu pengetahuan yang telah dipelajari selama perkuliahan ke dalam lingkungan kerja nyata. Mahasiswa juga memperoleh kesempatan untuk meningkatkan kompetensi teknis dalam pengembangan aplikasi berbasis web menggunakan Next.js, pengelolaan basis data menggunakan MySQL dan Drizzle ORM, penerapan mekanisme keamanan sistem, serta pengujian perangkat lunak menggunakan Vitest dan Playwright. Selain itu, mahasiswa dapat mengembangkan kemampuan komunikasi, kerja sama tim, serta pemecahan masalah yang diperlukan dalam dunia kerja profesional.
+
+
+BAB II
+
+GAMBARAN UMUM PKL
+
+2.1 Sejarah Perkembangan Perusahaan
+
+     Sejarah kegiatan pengamatan meteorologi, klimatologi, dan geofisika di Indonesia dimulai pada tahun 1841 melalui pengamatan yang dilakukan secara perorangan oleh Dr. Onnen, Kepala Rumah Sakit di Bogor. Pada tahun 1866, kegiatan pengamatan tersebut diresmikan oleh Pemerintah Hindia Belanda menjadi instansi pemerintah dengan nama Magnetisch en Meteorologisch Observatorium atau Observatorium Magnetik dan Meteorologi yang dipimpin oleh Dr. Bergsma[7].
+     Selanjutnya, pada tahun 1879 dibangun jaringan penakar hujan sebanyak 74 stasiun pengamatan di Pulau Jawa. Perkembangan kelembagaan meteorologi di Indonesia terus berlanjut hingga pada tahun 1950, Indonesia resmi menjadi anggota Organisasi Meteorologi Dunia (World Meteorological Organization atau WMO), di mana Kepala Jawatan Meteorologi dan Geofisika bertindak sebagai Permanent Representative of Indonesia with WMO[8].
+     Badan Meteorologi, Klimatologi, dan Geofisika (BMKG) secara resmi berdiri berdasarkan Peraturan Presiden Nomor 61 Tahun 2008 sebagai lembaga pemerintah non-departemen yang bertanggung jawab langsung kepada Presiden Republik Indonesia. BMKG memiliki tugas melaksanakan tugas pemerintahan di bidang meteorologi, klimatologi, kualitas udara, dan geofisika[9].
+8
+
+
+     BMKG Stasiun Meteorologi Maritim Tegal merupakan salah satu Unit Pelaksana Teknis (UPT) di lingkungan Badan Meteorologi, Klimatologi, dan Geofisika yang bertugas melaksanakan pengamatan, pengolahan, analisis, serta penyebarluasan informasi meteorologi maritim. Stasiun ini mulai beroperasi pada tahun 1976 dan sejak tahun 1986 berlokasi di Jalan Kolonel Sugiono Nomor 100, Kota Tegal. Hingga saat ini, BMKG Stasiun Meteorologi Maritim Tegal berperan penting dalam mendukung keselamatan pelayaran, aktivitas perikanan, serta kegiatan kemaritiman di wilayah perairan Pantai Utara Jawa[10].
+2.2 Visi, Misi, dan Tujuan
+
+     BMKG memiliki visi, misi, dan tujuan sebagai pedoman dalam menjalankan tugas dan fungsinya sebagai lembaga pemerintah di bidang meteorologi, klimatologi, dan geofisika. Uraian mengenai visi, misi, dan tujuan BMKG dijelaskan sebagai berikut.
+2.2.1 Visi BMKG
+
+Visi BMKG periode 2020-2024 adalah sebagai berikut.
+
+     "BMKG yang berkelas dunia dengan spirit socioentrepreneur untuk mewujudkan Indonesia Maju yang Berdaulat, Mandiri, dan Berkepribadian berlandaskan Gotong-Royong."
+2.2.2 Misi BMKG
+
+     Dalam rangka mewujudkan visi tersebut, BMKG memiliki misi sebagai berikut.
+
+
+1. Menjadikan informasi BMKG sebagai acuan internasional serta mewujudkan Regional Modelling Centre.
+2. Mendorong peran aktif sumber daya manusia BMKG dalam berbagai organisasi meteorologi, klimatologi, dan geofisika tingkat internasional.
+3. Mentransformasikan sebagian unit layanan jasa dan informasi BMKG menjadi unit Badan Layanan Umum (BLU).
+2.2.3 Tujuan BMKG
+
+     Adapun tujuan strategis BMKG periode 2020-2024 adalah sebagai berikut.
+1. Menjamin terselenggaranya pelayanan informasi dan jasa meteorologi, klimatologi, kualitas udara, dan geofisika yang cepat, tepat, akurat, luas, dan mudah dipahami demi keselamatan, kesejahteraan, serta ketahanan nasional yang diakui dunia.
+2. Mewujudkan ketangguhan ekonomi dan masyarakat dalam menghadapi faktor-faktor meteorologi, klimatologi, dan geofisika.
+     Membangun tata kelola lembaga yang transparan, bersih, akuntabel, dan berkualitas serta mampu menghadirkan layanan premium untuk mendukung kemandirian keuangan BMKG.
+2.3 Struktur Organisasi
+
+     Struktur organisasi BMKG Stasiun Meteorologi Maritim Tegal terdiri atas beberapa bagian yang memiliki tugas dan tanggung jawab masing- masing, yaitu Kepala Stasiun, Subbagian Tata Usaha, Seksi Data dan
+
+
+Informasi, Forecaster, dan Observer. Setiap bagian memiliki peran yang saling melengkapi dalam mendukung operasional stasiun secara keseluruhan.
+     Struktur organisasi BMKG Stasiun Meteorologi Maritim Tegal dapat dilihat pada Gambar 2.1
+
+
+Gambar 2.1 Struktur Organisasi BMKG Stasiun Meteorologi Maritim Tegal
+2.4 Deskripsi Tugas dan Tanggung Jawab
+
+     Berikut adalah deskripsi tugas dan tanggung jawab masing-masing bagian pada struktur organisasi BMKG Stasiun Meteorologi Maritim Tegal.
+1. Kepala Stasiun, bertugas memimpin seluruh kegiatan operasional, administrasi, dan pelayanan di BMKG Stasiun Meteorologi Maritim Tegal. Kepala Stasiun bertanggung jawab atas pelaksanaan tugas dan fungsi stasiun secara keseluruhan.
+2. Subbagian Tata Usaha, bertanggung jawab dalam pengelolaan administrasi umum, kepegawaian, keuangan, serta sarana dan prasarana
+
+
+stasiun. Subbagian ini berperan sebagai penunjang operasional seluruh kegiatan di stasiun.
+3. Seksi Data dan Informasi, bertugas mengelola, mengolah, dan mendistribusikan data meteorologi, klimatologi, atau geofisika. Seksi ini juga bertugas menyajikan informasi kepada publik maupun instansi terkait dalam bentuk laporan atau layanan data.
+4. Forecaster, bertugas menganalisis data hasil observasi dan model cuaca untuk menghasilkan prakiraan cuaca. Forecaster juga bertanggung jawab dalam memberikan peringatan dini terhadap potensi cuaca ekstrem.
+5. Observer, bertugas melakukan pengamatan, pengolahan, dan pendistribusian data meteorologi, klimatologi, atau geofisika secara berkala. Observer juga menyajikan informasi kepada publik maupun instansi terkait dalam bentuk laporan atau layanan data.
+
+
+BAB III
+
+METODE PELAKSANAAN
+
+
+3.1 Bidang Kerja dan Tugas PKL
+
+     Selama pelaksanaan Praktik Kerja Lapangan, mahasiswa ditempatkan pada Seksi Data dan Informasi BMKG Stasiun Meteorologi Maritim Tegal. Seksi ini bertanggung jawab dalam pengelolaan, pengolahan, serta penyebarluasan informasi meteorologi maritim kepada masyarakat dan instansi terkait.
+     Dalam kegiatan PKL, mahasiswa terlibat secara langsung dalam proses pengembangan dashboard administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal. Tugas yang dilakukan meliputi analisis kebutuhan sistem, perancangan antarmuka pengguna, implementasi modul- modul administrasi menggunakan framework Next.js, integrasi basis data menggunakan MySQL dan Drizzle ORM, penerapan mekanisme keamanan sistem, serta pengujian perangkat lunak menggunakan Vitest dan Playwright. Selain	itu,	mahasiswa	juga	melakukan	dokumentasi	hasil pengembangan, perbaikan bug yang ditemukan selama proses implementasi, serta koordinasi dengan pembimbing lapangan untuk memastikan fitur yang
+dikembangkan sesuai dengan kebutuhan pengguna.
+
+
+
+
+
+
+
+
+13
+
+
+
+
+3.2 Tugas Umum
+
+     Selama melaksanakan Praktik Kerja Lapangan di Seksi Data dan Informasi BMKG Stasiun Meteorologi Maritim Tegal, mahasiswa melaksanakan beberapa kegiatan umum yang dilakukan secara rutin maupun berdasarkan arahan pembimbing lapangan. Kegiatan tersebut bertujuan untuk mendukung proses pengembangan sistem informasi serta memahami alur kerja pada instansi.
+     Adapun tugas umum yang dilakukan selama kegiatan PKL adalah sebagai berikut.
+1. Melakukan observasi terhadap sistem informasi BMKG Stasiun Meteorologi Maritim Tegal yang telah digunakan sebelumnya, termasuk mengidentifikasi kekurangan dan kebutuhan pengembangan lebih lanjut.
+2. Melakukan diskusi dan konsultasi dengan pembimbing lapangan mengenai kebutuhan sistem, fitur yang diperlukan, serta mekanisme pengelolaan data pada dashboard administrasi.
+     Melakukan dokumentasi hasil pengembangan serta pengujian fitur yang telah diimplementasikan secara berkala.
+3.3 Tugas Khusus
+
+     Selama pelaksanaan Praktik Kerja Lapangan, mahasiswa diberikan tugas khusus berupa pengembangan dashboard administrasi pada website informasi BMKG Stasiun Meteorologi Maritim Tegal.
+
+
+3.3.1 Deskripsi Tugas Khusus
+
+     Tugas khusus yang diberikan kepada mahasiswa selama pelaksanaan Praktik Kerja Lapangan adalah melakukan pengembangan dashboard administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal. Pengembangan dilakukan sebagai bagian dari modernisasi sistem informasi yang telah digunakan sebelumnya dengan memanfaatkan teknologi web yang lebih mutakhir serta menambahkan berbagai fitur keamanan yang belum tersedia pada sistem sebelumnya.
+     Mahasiswa bertanggung jawab terhadap pengembangan seluruh modul pada panel administrasi (Content Management System/CMS) menggunakan framework Next.js versi 16 dengan dukungan React 19 dan TypeScript, serta MySQL sebagai basis data dengan Drizzle ORM sebagai penghubung antara aplikasi dan database.
+3.4 Analisis Permasalahan dan Solusi PKL
+
+     Analisis uraian permasalahan khusus ini menjelaskan bagaimana mahasiswa memberikan solusi atas permasalahan yang dihadapi saat mengalami kendala dalam melaksanakan tugas khusus (job description) selama pelaksanaan Praktik Kerja Lapangan. Kendala yang dihadapi beserta solusi yang diterapkan diuraikan sebagai berikut.
+1. Kendala: Mahasiswa belum memiliki pengalaman sebelumnya dalam menggunakan framework Next.js, Drizzle ORM, dan TypeScript, sehingga proses pengembangan pada iterasi pertama berjalan lebih lambat dari yang
+
+
+direncanakan. Solusi: mahasiswa mempelajari dokumentasi resmi masing-masing teknologi, melakukan eksperimen secara mandiri, serta berkonsultasi dengan pembimbing lapangan.
+2. Kendala: kebutuhan untuk mengimplementasikan berbagai mekanisme keamanan sistem yang belum pernah diterapkan sebelumnya, seperti CSRF Protection, Rate Limiting, Activity Logging, dan RBAC, sehingga menambah waktu pengembangan karena setiap mekanisme perlu dipelajari dan diuji secara terpisah. Solusi: mahasiswa mempelajari konsep keamanan aplikasi web modern melalui referensi resmi OWASP dan mengimplementasikannya secara bertahap pada setiap modul.
+3. Kendala: memastikan seluruh fitur yang dikembangkan dapat berjalan dengan baik dan stabil pada berbagai kondisi input dan skenario penggunaan, di mana terdapat beberapa bug yang ditemukan selama proses pengujian. Solusi: mahasiswa melakukan pengujian menggunakan Vitest dan Playwright serta menerapkan proses Continuous Integration menggunakan GitHub Actions untuk memastikan setiap perubahan kode tidak merusak fungsionalitas yang telah berjalan.
+     Melalui proses tersebut, mahasiswa memperoleh pengalaman dalam menganalisis kebutuhan sistem, mengembangkan aplikasi berbasis web modern, menerapkan mekanisme keamanan, serta melakukan pengujian perangkat lunak pada lingkungan kerja nyata.
+
+
+3.5 Analisis Kebutuhan Sistem
+
+     Sebelum proses pengembangan dashboard administrasi dilakukan, terlebih dahulu dilakukan analisis terhadap sistem yang telah digunakan di BMKG Stasiun Meteorologi Maritim Tegal. Analisis ini bertujuan untuk mengidentifikasi kondisi sistem yang sedang berjalan, mengetahui kebutuhan pengguna, serta menentukan ruang lingkup pengembangan yang akan dilaksanakan selama kegiatan Praktik Kerja Lapangan (PKL). Hasil analisis menjadi dasar dalam proses perancangan, implementasi, dan pengujian sistem sehingga solusi yang dikembangkan sesuai dengan kebutuhan operasional instansi.
+     Secara umum, tahapan analisis yang dilakukan selama proses pengembangan sistem dapat dilihat pada Gambar 3.1.
+
+
+Gambar 3.1 tahapan analisis
+     Berdasarkan Gambar 3.1, proses analisis diawali dengan kegiatan observasi terhadap sistem yang telah digunakan di BMKG Stasiun Meteorologi Maritim Tegal. Hasil observasi kemudian digunakan untuk mengidentifikasi permasalahan yang masih terdapat pada sistem serta
+
+
+menentukan kebutuhan fungsional dan nonfungsional. Seluruh hasil analisis tersebut menjadi acuan dalam proses perancangan sistem yang dibahas pada subbab berikutnya.
+
+
+3.5.1 Analisis Sistem Lama
+
+     Berdasarkan hasil observasi dan diskusi bersama pembimbing lapangan, BMKG Stasiun Meteorologi Maritim Tegal telah memiliki sistem informasi berbasis web yang digunakan sebagai media penyampaian informasi kepada masyarakat. Sistem tersebut juga dilengkapi dengan dashboard administrasi yang berfungsi untuk mengelola berbagai informasi seperti prakiraan cuaca, publikasi, kegiatan, layanan, struktur organisasi, serta buku tamu.
+     Meskipun sistem tersebut telah mendukung operasional instansi dengan baik, masih terdapat beberapa aspek yang perlu dikembangkan agar pengelolaan website menjadi lebih efektif, aman, dan mudah dipelihara. Pengembangan dilakukan tanpa mengubah fungsi utama sistem, melainkan berfokus pada modernisasi dashboard administrasi, peningkatan keamanan, serta penyempurnaan fitur sesuai kebutuhan pengguna.
+     Hasil identifikasi terhadap sistem yang telah digunakan dirangkum pada Tabel 3.1.
+Tabel 3.1 Permasalahan dan Solusi Pengembangan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+19
+
+
+NoPermasalahanDampakSolusi Pengembangan1Dashboard administrasi memerlukan
+modernisasi antarmukaPenggunaan kurang nyaman	pada berbagai perangkatMengembangkan dashboard	menggunakan Next.js dengan antarmuka responsif2Belum	tersedia Activity LoggingAktivitas pengguna sulit ditelusuriMenambahkan	modul
+pencatatan	aktivitas pengguna3Belum	menerapkan RBACHak akses pengguna
+belum	dibatasi secara spesifikMenerapkan	Role-Based Access Control4Belum tersedia Rate
+LimitingBerpotensi	terjadi
+brute force loginMenambahkan mekanisme
+Rate Limiting5Belum tersedia CSRF
+ProtectionMeningkatkan risiko
+serangan CSRFMenerapkan	Double
+Submit Cookie Pattern
+
+     Berdasarkan Tabel 3.1, pengembangan dashboard administrasi difokuskan pada peningkatan keamanan, kemudahan pengelolaan sistem, serta penyempurnaan antarmuka pengguna. Hasil analisis tersebut kemudian menjadi dasar dalam menentukan kebutuhan sistem yang harus dipenuhi selama proses pengembangan.
+3.5.2 Analisis Kebutuhan Fungsional
+
+     Kebutuhan fungsional merupakan kebutuhan yang berkaitan dengan fungsi atau layanan yang harus disediakan oleh sistem agar dapat mendukung aktivitas administrasi di BMKG Stasiun Meteorologi Maritim Tegal. Kebutuhan ini diperoleh melalui hasil observasi terhadap sistem yang telah ada serta diskusi bersama pembimbing lapangan mengenai fitur-fitur yang diperlukan.
+Rangkuman kebutuhan fungsional sistem dapat dilihat pada Tabel
+
+3.2.
+
+
+Tabel 3.2 Rangkuman kebutuhan fungsional
+
+NoKebutuhan FungsionalPrioritas1Login ke sistemTinggi2Menampilkan dashboard statistikTinggi3Mengelola data prakiraan cuacaTinggi4Mengelola data publikasiTinggi5Mengelola data kegiatanTinggi6Mengelola hero bannerSedang7Mengelola struktur organisasiSedang8Mengelola layananSedang9Mengelola buku tamuTinggi10Mengelola display managerSedang11Mengelola akun penggunaTinggi12Melihat riwayat loginTinggi13Mengelola pengaturan akunSedang14Logout dari sistemTinggi     Berdasarkan Tabel 3.2, kebutuhan fungsional tersebut menjadi dasar dalam proses perancangan sistem. Seluruh fungsi yang telah diidentifikasi kemudian dimodelkan menggunakan Use Case Diagram yang dijelaskan pada Subbab 3.4 sehingga hubungan antara aktor dan fungsi sistem dapat digambarkan secara lebih jelas.
+3.5.3 Analisis Kebutuhan NonFungsional
+
+     Selain memenuhi kebutuhan fungsional, sistem juga harus memenuhi kebutuhan nonfungsional yang berkaitan dengan kualitas perangkat lunak. Kebutuhan nonfungsional berperan dalam menentukan tingkat keamanan, performa, keandalan, serta kemudahan pemeliharaan sistem sehingga aplikasi dapat digunakan secara optimal dalam mendukung aktivitas administrasi.
+     Rangkuman kebutuhan nonfungsional yang diterapkan pada pengembangan dashboard administrasi dapat dilihat pada Tabel 3.3.
+
+
+Tabel 3.3 Rangkuman kebutuhan nonfungsional
+
+AspekImplementasi
+KeamananAutentikasi berbasis token sesi kustom (HMAC-SHA256), HTTP Only Cookie, bcrypt, RBAC, custom CAPTCHA, CSRF Protection, Rate Limiting, Activity Logging, Security
+HeadersPerformaNext.js, optimasi gambar WebP, Drizzle ORMKeandalanPengujian menggunakan Vitest dan Playwright serta
+otomatisasi melalui GitHub ActionsMaintainabilityTypeScript, struktur kode modular, Drizzle ORMUsabilityAntarmuka responsif dan konsisten pada setiap halaman
+dashboard
+
+     Berdasarkan Tabel 3.3, kebutuhan nonfungsional menjadi acuan dalam pemilihan metode pengembangan, arsitektur aplikasi, serta teknologi yang digunakan selama proses implementasi. Dengan memenuhi kebutuhan tersebut, sistem diharapkan mampu memberikan performa yang baik, mudah dipelihara, serta memiliki tingkat keamanan yang memadai untuk mendukung operasional dashboard administrasi.
+     Sebagai tindak lanjut dari hasil analisis tersebut, pada subbab berikutnya dijelaskan metode pengembangan, arsitektur aplikasi, dan teknologi yang digunakan dalam membangun dashboard administrasi BMKG Stasiun Meteorologi Maritim Tegal.
+3.6 Metode Pengembangan dan Arsitektur Sistem
+
+     Sebelum proses implementasi dilakukan, pengembangan dashboard administrasi diawali dengan penentuan metode pengembangan, perancangan arsitektur sistem, serta pemilihan teknologi yang digunakan. Ketiga aspek tersebut saling berkaitan untuk memastikan sistem yang dikembangkan
+
+
+memenuhi kebutuhan pengguna, mudah dipelihara, aman, dan memiliki performa yang baik.
+3.6.1 Metode Pengembangan Sistem
+
+     Pengembangan dashboard administrasi menggunakan metode Iterative Development, yaitu metode pengembangan perangkat lunak yang dilakukan secara bertahap melalui beberapa siklus (iteration). Setiap siklus terdiri atas proses analisis kebutuhan, perancangan, implementasi, pengujian, dan evaluasi. Hasil evaluasi pada setiap iterasi digunakan sebagai dasar untuk melakukan penyempurnaan sebelum melanjutkan ke pengembangan fitur berikutnya.
+     Metode ini dipilih karena selama pelaksanaan Praktik Kerja Lapangan kebutuhan sistem dapat berubah sesuai dengan hasil diskusi bersama pembimbing lapangan. Dengan menggunakan pendekatan iteratif, setiap fitur dapat dikembangkan secara bertahap sehingga memudahkan proses evaluasi serta memungkinkan adanya perbaikan tanpa harus mengulang keseluruhan proses pengembangan.
+     Pada pelaksanaan PKL, tahapan pengembangan dilakukan sebagai berikut.
+1. Observasi dan Analisis Kebutuhan
+
+     Tahap awal dilakukan dengan mempelajari sistem informasi yang telah digunakan oleh BMKG Stasiun Meteorologi Maritim Tegal, mengidentifikasi kebutuhan pengguna, serta mendiskusikan fitur yang akan dikembangkan bersama pembimbing lapangan.
+
+
+2. Perancangan Sistem
+
+     Berdasarkan hasil analisis kebutuhan, dilakukan perancangan sistem yang meliputi perancangan arsitektur aplikasi, use case diagram, flowchart autentikasi, basis data, serta rancangan antarmuka pengguna.
+3. Implementasi Sistem
+
+     Tahap implementasi dilakukan dengan mengembangkan dashboard administrasi menggunakan Next.js, TypeScript, Tailwind CSS, dan Drizzle ORM. Pada tahap ini juga diterapkan berbagai mekanisme keamanan seperti autentikasi berbasis sesi menggunakan HMAC, HTTP Only Cookie, Role-Based Access Control (RBAC), CSRF Protection, serta Rate Limiting.
+4. Pengujian Sistem
+
+     Setelah fitur selesai dikembangkan, dilakukan pengujian menggunakan Vitest untuk menguji fungsi dan logika program, serta Playwright untuk menguji alur penggunaan aplikasi secara end-to-end. Selain itu, GitHub Actions dimanfaatkan untuk menjalankan proses Continuous Integration sehingga setiap perubahan kode dapat diverifikasi secara otomatis.
+5. Evaluasi dan Perbaikan
+
+     Hasil pengujian serta masukan dari pembimbing lapangan digunakan sebagai dasar untuk melakukan penyempurnaan sistem sebelum melanjutkan ke pengembangan fitur berikutnya.
+
+
+     Gambar 3.2 menunjukkan tahapan metode Iterative Development yang diterapkan pada pengembangan dashboard administrasi.
+
+
+Gambar 3.2 tahapan metode Iterative Development
+3.6.2 Arsitektur Dashboard Administrasi
+
+     Arsitektur aplikasi menggambarkan hubungan antara komponen- komponen utama yang membentuk sistem dashboard administrasi. Arsitektur ini dirancang menggunakan pendekatan client-server, di mana pengguna mengakses aplikasi melalui web browser, kemudian permintaan diproses oleh aplikasi Next.js sebelum berinteraksi dengan basis data.
+     Pada sisi klien (client), pengguna melakukan autentikasi melalui halaman login. Setelah proses autentikasi berhasil, sistem membuat session token yang diamankan menggunakan algoritma HMAC dan disimpan dalam HTTP Only Cookie. Selanjutnya, setiap permintaan yang dikirimkan pengguna akan melalui middleware untuk memverifikasi sesi dan hak akses sebelum diproses oleh API.
+
+
+     Pada sisi server (server), aplikasi dikembangkan menggunakan Next.js yang memanfaatkan API Routes sebagai layanan backend. Seluruh proses pengolahan data dilakukan menggunakan Drizzle ORM yang berfungsi sebagai penghubung antara aplikasi dengan basis data MySQL. Selain itu, server juga menangani proses validasi data, pengelolaan autentikasi, pencatatan aktivitas pengguna, serta penerapan mekanisme keamanan lainnya.
+     Arsitektur ini dipilih karena mampu memisahkan tanggung jawab antara antarmuka pengguna, logika aplikasi, dan pengelolaan basis data sehingga sistem menjadi lebih mudah dikembangkan, dipelihara, dan ditingkatkan pada masa mendatang.
+
+
+Gambar 3.3 arsitektur aplikasi dashboard administrasi
+     Gambar 3.3 menunjukkan arsitektur aplikasi dashboard administrasi yang digunakan dalam pengembangan sistem.
+
+
+3.6.3 Teknologi dan Perangkat Pengembang
+
+     Pengembangan dashboard administrasi memanfaatkan berbagai teknologi dan perangkat lunak yang saling mendukung proses pembangunan aplikasi. Pemilihan teknologi disesuaikan dengan kebutuhan sistem agar menghasilkan aplikasi yang memiliki performa baik, mudah dipelihara, serta mendukung pengembangan jangka panjang.
+Tabel 3.4 Teknologi dan Perangkat Pengembang
+
+NoTeknologiFungsi1Next.jsFramework utama pengembangan aplikasi web2ReactMembangun antarmuka pengguna berbasis komponen3TypeScriptBahasa pemrograman dengan dukungan static typing4Tailwind CSSFramework CSS untuk membangun antarmuka
+responsif5MySQLSistem manajemen basis data6Drizzle ORMMenghubungkan aplikasi dengan basis data7ZodValidasi data pada sisi server8VitestPengujian unit dan integrasi9PlaywrightPengujian end-to-end10GitHub ActionsContinuous Integration (CI)11SharpOptimasi gambar menjadi format WebP12Node.jsRuntime JavaScript untuk menjalankan aplikasi     Berdasarkan Tabel 3.4, teknologi yang digunakan tidak hanya berfokus pada proses pengembangan aplikasi, tetapi juga mendukung aspek keamanan, performa, dan kualitas perangkat lunak. Kombinasi Next.js, TypeScript, serta Drizzle ORM mempermudah pengelolaan kode program, sedangkan Vitest, Playwright, dan GitHub Actions membantu memastikan bahwa setiap perubahan yang dilakukan tetap memenuhi standar kualitas melalui proses pengujian secara otomatis.
+
+
+3.7 Perancangan Sistem
+
+     Perancangan sistem merupakan tahapan yang dilakukan setelah proses analisis kebutuhan selesai. Tahap ini bertujuan untuk menggambarkan rancangan sistem yang akan diimplementasikan sehingga proses pengembangan dapat dilakukan secara terarah. Perancangan sistem pada dashboard administrasi BMKG Stasiun Meteorologi Maritim Tegal meliputi pemodelan interaksi pengguna dengan sistem melalui Use Case Diagram serta perancangan alur autentikasi menggunakan Flowchart.
+3.7.1 Use Case Diagram
+
+     Use Case Diagram digunakan untuk memodelkan interaksi antara aktor dengan sistem yang dikembangkan. Diagram ini memberikan gambaran mengenai fungsi-fungsi yang tersedia pada dashboard administrasi serta hak akses masing-masing aktor. Melalui pemodelan ini, ruang lingkup sistem dapat dipahami dengan lebih mudah sebelum proses implementasi dilakukan.
+     Pada dashboard administrasi BMKG Stasiun Meteorologi Maritim Tegal terdapat dua aktor utama, yaitu Admin dan User. Kedua aktor memiliki hak akses yang berbeda sesuai dengan tugas dan tanggung jawabnya. User memiliki akses untuk mengelola konten operasional website, sedangkan Admin memiliki hak akses tambahan untuk mengelola akun pengguna dan memantau aktivitas sistem.
+     Use Case Diagram dashboard administrasi dapat dilihat pada Gambar 3.4.
+
+
+
+
+Gambar 3.4 usecase diagram
+     Berdasarkan Gambar 3.3, sistem menyediakan berbagai fungsi yang mendukung proses administrasi website, mulai dari autentikasi pengguna, pengelolaan konten, hingga pengelolaan akun dan riwayat aktivitas. Seluruh fungsi tersebut dirancang untuk mempermudah administrator dalam mengelola informasi yang ditampilkan pada website BMKG Stasiun Meteorologi Maritim Tegal.
+     Untuk memberikan penjelasan yang lebih rinci mengenai hak akses masing-masing aktor, daftar use case yang terdapat pada sistem disajikan pada Tabel 3.5.
+
+
+
+
+Tabel 3.5 Use Case
+
+NoUse CaseAdminUser1Login??2Melihat Dashboard??3Mengelola Prakiraan??4Mengelola Publikasi??5Mengelola Kegiatan??6Mengelola Hero??7Mengelola Struktur Organisasi??8Mengelola Layanan??9Mengelola Buku Tamu??10Mengelola Display Manager??11Mengelola User?-12Melihat Login History??13Pengaturan Akun??14Logout??     Berdasarkan Tabel 3.5, sebagian besar fitur dapat diakses oleh kedua aktor karena berkaitan dengan pengelolaan konten website. Namun, fitur yang berhubungan dengan administrasi sistem, seperti pengelolaan pengguna dan riwayat login, hanya dapat diakses oleh Admin. Pembagian hak akses tersebut diterapkan menggunakan mekanisme Role-Based Access Control (RBAC) sehingga setiap pengguna hanya dapat mengakses fitur sesuai dengan perannya.
+3.7.2 Flowchart Autentikasi
+
+     Flowchart autentikasi digunakan untuk menggambarkan alur proses login hingga pengguna memperoleh akses ke dashboard administrasi. Perancangan ini bertujuan untuk memastikan setiap pengguna yang mengakses sistem telah melalui proses verifikasi identitas dan validasi hak akses.
+
+
+     Pada sistem yang dikembangkan, proses autentikasi diawali dengan pengguna memasukkan username, password, dan captcha pada halaman login. Sistem kemudian memvalidasi captcha untuk mencegah percobaan login otomatis. Apabila captcha valid, sistem akan melakukan verifikasi akun dan mencocokkan kata sandi yang telah dienkripsi menggunakan bcrypt.
+     Jika proses autentikasi berhasil, server akan membuat session token yang diamankan menggunakan algoritma HMAC-SHA256. Token tersebut disimpan pada HTTP Only Cookie sehingga tidak dapat diakses oleh JavaScript di sisi klien. Selanjutnya, setiap permintaan ke halaman administrasi akan melalui middleware untuk memverifikasi token serta hak akses pengguna sebelum permintaan diproses.
+     Apabila salah satu proses validasi gagal, sistem akan menampilkan pesan kesalahan dan pengguna diminta melakukan proses login kembali.
+     Gambar 3.5 menunjukkan flowchart autentikasi dashboard administrasi.
+
+
+
+
+
+
+
+Gambar 3.5 flowchart autentikasi
+     Berdasarkan flowchart tersebut, proses autentikasi tidak hanya memverifikasi identitas pengguna, tetapi juga menerapkan beberapa mekanisme keamanan seperti validasi captcha, hashing kata sandi menggunakan bcrypt, session token berbasis HMAC, penyimpanan token menggunakan HTTP Only Cookie, serta pemeriksaan hak akses melalui middleware. Rancangan ini diharapkan dapat meningkatkan keamanan dashboard administrasi dibandingkan mekanisme autentikasi yang lebih sederhana.
+
+
+3.8 Perancangan Basis Data
+
+     Basis data merupakan komponen utama dalam sistem informasi yang berfungsi sebagai media penyimpanan seluruh data yang digunakan oleh aplikasi. Pada pengembangan dashboard administrasi BMKG Stasiun Meteorologi Maritim Tegal, basis data dirancang menggunakan MySQL sebagai Database Management System (DBMS), sedangkan proses interaksi antara aplikasi dan basis data menggunakan Drizzle ORM. Penggunaan ORM bertujuan untuk mempermudah pengelolaan data, meningkatkan keterbacaan kode program, serta mengurangi risiko kesalahan dalam penulisan query SQL.
+     Perancangan basis data dilakukan untuk memastikan setiap data yang dikelola oleh sistem memiliki struktur yang terorganisir, saling berhubungan sesuai kebutuhan, serta mampu mendukung seluruh proses bisnis yang terdapat pada dashboard administrasi.
+3.8.1 Entity Relationship Diagram (ERD)
+
+     Entity Relationship Diagram (ERD) digunakan untuk menggambarkan struktur basis data beserta hubungan antarentitas yang terdapat pada sistem. Melalui ERD, proses penyimpanan dan pengelolaan data dapat dirancang secara sistematis sehingga memudahkan implementasi serta pemeliharaan basis data di masa mendatang.
+     Pada dashboard administrasi BMKG Stasiun Meteorologi Maritim Tegal, basis data terdiri dari beberapa entitas utama yang
+
+
+digunakan untuk mengelola informasi prakiraan cuaca, publikasi, kegiatan, hero, struktur organisasi, layanan, buku tamu, pengguna, riwayat login, serta data pendukung lainnya. Setiap entitas memiliki hubungan yang disesuaikan dengan kebutuhan sistem agar proses pengolahan data dapat berjalan secara efisien.
+     Gambar 3.5 menunjukkan Entity Relationship Diagram (ERD) yang digunakan dalam pengembangan dashboard administrasi.
+
+
+
+Gambar 3.6 Entity Relationship Diagram (ERD)
+     Berdasarkan Gambar 3.6, hubungan antarentitas dirancang untuk mengurangi redundansi data sekaligus menjaga konsistensi informasi. Relasi antar tabel menggunakan primary key dan foreign key sehingga integritas data tetap terjaga ketika proses penambahan, perubahan, maupun penghapusan data dilakukan melalui dashboard administrasi.
+
+
+3.8.2 Skema Database
+
+     Selain menggambarkan hubungan antarentitas, struktur setiap tabel juga dirancang agar mampu mendukung proses penyimpanan data sesuai kebutuhan sistem. Masing-masing tabel memiliki atribut, tipe data, serta fungsi yang berbeda sesuai dengan informasi yang dikelolanya.
+     Untuk memberikan gambaran mengenai struktur basis data, berikut merupakan beberapa tabel utama yang digunakan dalam sistem.
+Tabel 3.6 Skema Database Sistem Dashboard Administrasi
+
+NoNama TabelKolom UtamaFungsi
+1
+usersid,	username, password,	role,
+nama, is_activeMenyimpan	data	akun	pengguna dashboard administrasi dengan dua
+tingkatan role (admin dan user)
+2
+login_logsid,	user_id,
+username,
+ip_address, aktivitasMencatat seluruh aktivitas pengguna pada sistem termasuk login, tambah,
+ubah, dan hapus data (berelasi dengan tabel users)
+3
+prakiraan_categoriesid, name, slug, description, iconMenyimpan data kategori prakiraan cuaca maritim (misalnya Kota Tegal,
+Maritim, Pasang Surut)
+
+4
+
+prakiraan_imagesid,	title,	url, category_id, is_active,
+waktu_mulai, waktu_berakhirMenyimpan data prakiraan cuaca beserta gambar, periode waktu, dan status aktif (berelasi dengan tabel prakiraan_categories)
+5
+publicationsid,	title,
+description, url, file_path,
+cover_urlMenyimpan data publikasi dan buletin BMKG dalam format PDF beserta gambar sampul
+
+6
+
+kegiatan_documentsid,	title,
+description, event_date, image_urls, youtube_url,
+is_active
+Menyimpan data dokumentasi kegiatan beserta foto dan tautan YouTube
+7
+hero_imagesid,	name,	url,
+order_index, is_activeMenyimpan	data	gambar	yang
+ditampilkan pada bagian hero slider halaman utama website8struktur_organisasiid,	jabatan,
+nama,	inisial,Menyimpan data susunan organisasi
+BMKG Stasiun Meteorologi Maritim
+
+NoNama TabelKolom UtamaFungsideskripsi, urutanTegal
+9
+buku_tamuid, nama, email, no_telepon, instansi,
+keperluan
+Menyimpan data pengunjung yang mengisi formulir buku tamu daring
+
+10
+
+layanan_cardsid, nama_layanan, deskripsi, url_google_for
+m, cover_url
+Menyimpan data kartu layanan yang ditampilkan pada halaman publik website
+11
+displayid,	title,	url,
+order, uploader, waktu_berakhirMenyimpan	data	konten	digital
+(gambar/video)	untuk	ditampilkan pada layar monitor di kantor BMKG     Struktur relasi database ini dirancang dengan pendekatan minim ketergantungan antar tabel (loose coupling) untuk sebagian besar entitas. Tabel-tabel seperti publications, kegiatan_documents, hero_images, struktur_organisasi, buku_tamu, layanan_cards, dan display sengaja dirancang independen tanpa foreign key ke tabel lain selain relasi dasar ke users melalui pencatatan log.
+     Pendekatan ini dipilih karena masing-masing modul CMS pada dashboard administrasi bersifat berdiri sendiri secara fungsional - misalnya penghapusan data pada modul buku tamu tidak akan memengaruhi integritas data pada modul dokumentasi kegiatan atau publikasi. Sementara itu, relasi many-to-one tetap diterapkan pada dua kasus yang memang secara logis saling bergantung, yaitu login_logs terhadap users (karena setiap aktivitas harus tertaut pada satu akun pengguna yang jelas untuk kebutuhan audit) dan prakiraan_images terhadap prakiraan_categories (karena setiap data prakiraan cuaca harus dikelompokkan ke dalam kategori tertentu agar dapat ditampilkan secara terstruktur pada halaman publik).
+
+
+Relasi antar tabel pada basis data sistem adalah sebagai berikut.
+
+1. Tabel login_logs memiliki relasi many-to-one dengan tabel users melalui kolom user_id. Satu pengguna dapat memiliki banyak catatan aktivitas.
+2. Tabel prakiraan_images memiliki relasi many-to-one dengan tabel prakiraan_categories melalui kolom category_id. Satu kategori dapat memiliki banyak data prakiraan.
+3. Tabel lainnya (publications, kegiatan_documents, hero_images, struktur_organisasi, buku_tamu, layanan_cards, display) bersifat independen dan tidak memiliki relasi langsung dengan tabel lain.
+3.9 Perancangan Antarmuka Pengguna
+
+     Perancangan antarmuka pengguna (User Interface) dilakukan untuk memberikan gambaran mengenai tampilan dashboard administrasi sebelum proses implementasi. Tahap ini bertujuan agar struktur halaman, penempatan menu, serta penyusunan komponen antarmuka dapat dirancang sesuai kebutuhan pengguna sehingga menghasilkan aplikasi yang mudah digunakan. Dalam	pengembangan	dashboard	administrasi	BMKG	Stasiun Meteorologi Maritim Tegal, perancangan antarmuka difokuskan pada kemudahan navigasi, konsistensi tata letak, serta penyajian informasi yang sederhana. Dashboard dirancang menggunakan konsep antarmuka modern dengan menu navigasi pada sisi kiri (sidebar), area konten utama di bagian tengah, serta komponen pendukung seperti kartu statistik, tabel data, formulir,
+dan dialog konfirmasi.
+
+
+     Rancangan antarmuka ini menjadi acuan selama proses implementasi sehingga setiap halaman memiliki struktur yang konsisten dan memudahkan pengguna dalam mengelola informasi pada sistem.
+     Gambar 3.7 menunjukkan rancangan antarmuka dashboard administrasi sebelum proses implementasi dilakukan.
+
+
+ Gambar 3.7 rancangan antarmuka dashboard administrasi Berdasarkan rancangan tersebut, halaman administrasi terdiri atas
+beberapa bagian utama, yaitu sidebar sebagai media navigasi, header yang menampilkan informasi pengguna, area konten sebagai tempat pengelolaan data, serta komponen pendukung seperti tombol aksi, formulir, tabel, dan notifikasi. Struktur antarmuka tersebut kemudian diimplementasikan pada seluruh modul dashboard administrasi dengan menyesuaikan kebutuhan masing-masing fitur.
+
+
+BAB IV
+
+HASIL YANG DICAPAI
+
+4.1 Implementasi Fitur Dashboard Administrasi
+
+     Berdasarkan hasil perancangan sistem yang telah dijelaskan pada Bab III, seluruh fitur dashboard administrasi kemudian diimplementasikan menggunakan framework Next.js dan teknologi pendukung lainnya. Implementasi dilakukan pada setiap modul sesuai dengan kebutuhan fungsional yang telah dianalisis sebelumnya. Subbab ini menjelaskan hasil implementasi dari masing-masing fitur yang terdapat pada dashboard administrasi.
+4.1.1 Halaman Login
+
+     Halaman login merupakan gerbang autentikasi bagi pengguna sebelum dapat mengakses dashboard administrasi. Pengguna diwajibkan memasukkan username dan password yang valid serta menyelesaikan custom CAPTCHA berbasis teks untuk mengurangi kemungkinan percobaan login otomatis oleh bot.
+     Sistem juga menyediakan fitur untuk menampilkan atau menyembunyikan password (show/hide password) sehingga memudahkan pengguna dalam melakukan verifikasi kata sandi yang dimasukkan. Apabila proses autentikasi berhasil, sistem akan membuat token sesi kustom yang disimpan pada cookie dan diperbarui secara otomatis selama sesi pengguna masih aktif.
+
+
+39
+
+
+     Tampilan halaman login dashboard administrasi dapat dilihat pada Gambar 4.1 berikut.
+
+
+Gambar 4.1 Tampilan Halaman Login Dashboard Administrasi
+4.1.2 Dashboard Statistik
+
+      Dashboard utama dirancang dengan tampilan sederhana sesuai kebutuhan pengguna di BMKG Stasiun Meteorologi Maritim Tegal. Informasi ditampilkan dalam bentuk score card agar pengguna dapat melihat kondisi sistem secara cepat.
+      Informasi yang ditampilkan pada dashboard meliputi jumlah data buku tamu, jumlah pengguna sistem, jumlah prakiraan aktif, jumlah prakiraan tidak aktif, riwayat aktivitas pengguna terbaru, serta daftar publikasi yang tersedia pada sistem.
+      Tampilan dashboard statistik dapat dilihat pada Gambar 4.2 berikut.
+
+
+
+
+Gambar 4.2 Tampilan Dashboard Statistik
+4.1.3 Manajemen Prakiraan Cuaca
+
+     Modul prakiraan cuaca digunakan untuk mengelola informasi prakiraan cuaca maritim yang ditampilkan pada halaman publik website. Fitur yang tersedia pada modul ini meliputi:
+1. Menambahkan, mengubah, dan menghapus data prakiraan
+
+2. Mengunggah gambar prakiraan
+
+3. Pencarian data dan pagination
+
+4. Pengelompokan berdasarkan kategori prakiraan
+
+5. Statistik jumlah prakiraan aktif dan tidak aktif
+
+     Tampilan modul manajemen prakiraan cuaca dapat dilihat pada Gambar 4.3 berikut.
+
+
+
+
+Gambar 4.3 Tampilan Modul Manajemen Prakiraan Cuaca
+4.1.4 Manajemen Publikasi
+
+     Modul publikasi digunakan untuk mengelola buletin atau dokumen publikasi BMKG yang dapat diakses oleh masyarakat. Pengguna dapat mengunggah dokumen publikasi dalam format PDF beserta gambar sampul publikasi. Sistem menyediakan fasilitas untuk menambah, mengubah, menghapus, dan mencari data publikasi.
+Tampilan modul manajemen publikasi dapat dilihat pada Gambar
+
+4.4 berikut.
+
+
+Gambar 4.4 Tampilan Modul Manajemen Publikasi
+
+
+4.1.5 Manajemen Dokumentasi Kegiatan
+
+     Modul dokumentasi kegiatan digunakan untuk mengelola dokumentasi kegiatan yang dilakukan oleh BMKG Stasiun Meteorologi Maritim Tegal. Informasi yang disimpan meliputi judul kegiatan, tanggal kegiatan, deskripsi singkat, serta dokumentasi berupa gambar. Fitur yang tersedia antara lain tambah, edit, hapus data, upload gambar, pencarian data, dan pagination.
+Tampilan modul dokumentasi kegiatan dapat dilihat pada Gambar
+
+4.5 berikut.
+
+
+Gambar 4.5 Tampilan Modul Dokumentasi Kegiatan
+4.1.6 Hero Slider
+
+     Modul hero slider digunakan untuk mengelola gambar yang ditampilkan pada bagian atas halaman utama website. Pengguna dapat menambahkan gambar baru, mengubah gambar yang telah ada, maupun menghapus gambar yang tidak digunakan lagi. Untuk meningkatkan performa website, sistem secara otomatis melakukan konversi gambar yang diunggah ke dalam format WebP sebelum disimpan pada server.
+
+
+     Tampilan modul hero slider dapat dilihat pada Gambar 4.6 berikut.
+
+
+Gambar 4.6 Tampilan Modul Hero Slider
+4.1.7 Manajemen Struktur Organisasi
+
+     Modul struktur organisasi digunakan untuk mengelola informasi mengenai susunan organisasi di BMKG Stasiun Meteorologi Maritim Tegal. Informasi yang ditampilkan pada halaman publik meliputi nama pegawai, jabatan, serta foto profil masing-masing pegawai. Dengan adanya modul ini, proses pembaruan struktur organisasi dapat dilakukan secara mandiri melalui dashboard administrasi tanpa perlu melakukan perubahan kode program secara langsung.
+     Tampilan modul manajemen struktur organisasi dapat dilihat pada Gambar 4.7 berikut.
+
+
+
+
+Gambar 4.7 Tampilan Modul Manajemen Struktur Organisasi
+4.1.8 Manajemen Buku Tamu
+
+     Modul buku tamu digunakan untuk mengelola data pengunjung yang telah mengisi formulir buku tamu secara daring melalui halaman publik website. Fitur yang tersedia pada modul ini meliputi:
+1. Menampilkan daftar pengunjung
+
+2. Pencarian data pengunjung
+
+3. Pagination dengan pilihan jumlah data per halaman
+
+4. Penghapusan data pengunjung
+
+5. Backup data dalam format JSON
+
+6. Restore data dari file JSON
+
+7. Pencetakan laporan buku tamu dalam format PDF
+
+     Fitur backup dan restore memungkinkan administrator melakukan pencadangan data secara berkala sehingga risiko kehilangan data dapat diminimalkan.
+     Tampilan modul manajemen buku tamu dapat dilihat pada Gambar 4.8 berikut.
+
+
+
+
+Gambar 4.8 Tampilan Modul Manajemen Buku Tamu
+4.1.9 Manajemen Layanan
+
+     layanan ditampilkan dalam bentuk kartu (card) yang terdiri atas gambar, judul layanan, dan deskripsi singkat. Administrator dapat menambahkan layanan baru, memperbarui informasi layanan, maupun menghapus layanan yang sudah tidak digunakan.
+Tampilan modul manajemen layanan dapat dilihat pada Gambar
+
+4.9 berikut.
+
+
+Gambar 4.9 Tampilan Modul Manajemen Layanan
+
+
+4.1.10 Display Manager
+
+     Display Manager merupakan modul yang digunakan untuk mengelola konten informasi digital yang ditampilkan pada layar monitor atau televisi di lingkungan BMKG Stasiun Meteorologi Maritim Tegal. Konten yang dapat dikelola meliputi gambar dan video yang akan diputar secara otomatis berdasarkan urutan yang telah ditentukan. Keberadaan fitur ini memungkinkan penyajian informasi kepada pengunjung kantor BMKG dilakukan secara lebih menarik dan dinamis.
+     Tampilan modul Display Manager dapat dilihat pada Gambar 4.10 berikut.
+
+
+Gambar 4.10 Tampilan Modul Display Manager
+4.1.11 Manajemen Pengguna
+
+     Modul manajemen pengguna digunakan untuk mengelola akun yang memiliki akses ke dashboard administrasi. Sistem menerapkan dua jenis hak akses pengguna, yaitu admin dan user. Data yang dikelola pada modul ini meliputi nama pengguna, username, hak akses (role), password, dan verifikasi password. Modul ini juga dilengkapi dengan
+
+
+fitur pencarian data, pagination, serta fasilitas untuk menambah, mengubah, dan menghapus akun pengguna.
+Tampilan modul manajemen pengguna dapat dilihat pada Gambar
+
+4.11 berikut.
+
+
+Gambar 4.11 Tampilan Modul Manajemen Pengguna
+4.1.12 Riwayat Aktivitas Pengguna
+
+     Modul riwayat aktivitas pengguna digunakan untuk memantau aktivitas yang dilakukan oleh pengguna sistem. Informasi yang ditampilkan meliputi nama pengguna, jenis aktivitas yang dilakukan, serta waktu pelaksanaan aktivitas. Aktivitas yang dicatat antara lain proses login, penambahan data, perubahan data, dan penghapusan data pada berbagai modul administrasi. Fitur tambahan yang tersedia meliputi pencarian data, pagination, ekspor data ke format CSV, dan penghapusan seluruh riwayat aktivitas.
+     Tampilan modul riwayat aktivitas pengguna dapat dilihat pada Gambar 4.12 berikut.
+
+
+
+
+Gambar 4.12 Tampilan Modul Riwayat Aktivitas Pengguna
+4.1.13 Pengaturan Akun
+
+     Modul pengaturan akun digunakan untuk mengelola informasi akun pengguna yang sedang aktif digunakan. Pada modul ini pengguna dapat melihat informasi profil serta melakukan perubahan password secara mandiri. Untuk meningkatkan keamanan, sistem meminta pengguna memasukkan password lama sebelum melakukan perubahan
+
+
+password baru sehingga pengguna tidak perlu meminta bantuan administrator.
+     Tampilan modul pengaturan akun dapat dilihat pada Gambar 4.13 berikut.
+
+
+Gambar 4.13 Tampilan Modul Pengaturan Akun
+4.2 Implementasi Keamanan Sistem
+
+     Selain implementasi fitur-fitur administrasi, mekanisme keamanan yang telah dirancang pada tahap analisis kebutuhan nonfungsional dan perancangan sistem pada Bab III juga direalisasikan pada dashboard administrasi. Implementasi keamanan bertujuan untuk melindungi data, menjaga integritas sesi pengguna, serta mencegah akses yang tidak sah ke dalam sistem. Subbab ini menjelaskan implementasi setiap mekanisme keamanan yang diterapkan pada dashboard administrasi.
+4.2.1 Autentikasi Menggunakan Token Sesi Kustom
+
+     Sistem autentikasi pada dashboard administrasi menggunakan mekanisme Token sesi kustom + SHA-256 + HTTP Only Cookie. Setelah pengguna berhasil melakukan proses login, sistem akan
+
+
+membuat token autentikasi yang ditandatangani menggunakan algoritma HMAC-SHA256 dan disimpan pada HTTP Only Cookie. Penggunaan HTTP Only Cookie bertujuan untuk mencegah token diakses melalui JavaScript pada sisi klien sehingga dapat mengurangi risiko pencurian token akibat serangan Cross Site Scripting (XSS).
+     Sistem juga menerapkan mekanisme pembaruan masa aktif cookie secara otomatis pada setiap permintaan yang valid sehingga pengguna dapat mempertahankan sesi aktif selama masih menggunakan aplikasi tanpa perlu melakukan autentikasi ulang dalam jangka waktu tertentu.
+     Diagram proses autentikasi menggunakan token sesi kustom dapat dilihat pada Gambar 4.14 berikut.
+
+
+Gambar 4.14 Diagram Proses Autentikasi Token Sesi
+
+
+4.2.2 Hashing Password Menggunakan bcrypt
+
+     Untuk menjaga kerahasiaan data pengguna, sistem tidak menyimpan kata sandi dalam bentuk teks biasa (plain text). Sebelum disimpan ke dalam basis data, password diproses menggunakan algoritma bcrypt melalui library bcryptjs sehingga menghasilkan nilai hash yang tidak dapat dikembalikan ke bentuk aslinya. Ketika pengguna melakukan proses login, sistem akan membandingkan password yang dimasukkan dengan nilai hash yang tersimpan menggunakan fungsi verifikasi yang disediakan oleh bcryptjs. Implementasi ini membantu meningkatkan keamanan sistem apabila terjadi kebocoran basis data.
+4.2.3 Role Based Access Control (RBAC)
+
+     Dashboard administrasi menerapkan mekanisme Role Based Access Control (RBAC) untuk membatasi akses pengguna terhadap fitur-fitur tertentu. Sistem menggunakan dua jenis hak akses pengguna sebagaimana ditunjukkan pada Tabel 4.1 berikut.
+Tabel 4.1 Hak Akses Pengguna Berdasarkan Role
+
+RoleHak Akses
+AdminMengakses	seluruh	fitur	dashboard	administrasi	termasuk
+manajemen pengguna, seluruh modul konten, display manager, riwayat aktivitas, dan pengaturan akun
+UserMengakses seluruh fitur dashboard administrasi termasuk seluruh modul konten, display manager, riwayat aktivitas, dan pengaturan
+akun kecuali manajemen pengguna
+
+     Dengan penerapan RBAC, pengguna hanya dapat mengakses fitur sesuai dengan peran yang dimilikinya sehingga risiko penyalahgunaan sistem dapat diminimalkan.
+4.2.4 Custom CAPTCHA
+
+     Sebagai upaya untuk mengurangi kemungkinan percobaan login otomatis oleh bot, sistem menerapkan Custom CAPTCHA berbasis teks pada halaman login. CAPTCHA terdiri atas enam karakter acak yang dihasilkan pada sisi klien (client-side) dan disimpan sementara di memori browser selama halaman login aktif digunakan. Sistem juga menyediakan tombol untuk menghasilkan CAPTCHA baru apabila karakter yang ditampilkan sulit dibaca.
+4.2.5 CSRF Protection
+
+     Sistem menerapkan mekanisme perlindungan terhadap serangan Cross Site Request Forgery (CSRF) menggunakan metode Double Submit Cookie Pattern. Pada metode ini, sistem menghasilkan token CSRF yang disimpan pada cookie dan dikirim kembali melalui header permintaan ketika pengguna melakukan operasi yang mengubah data. Sistem akan memverifikasi kesesuaian token sebelum memproses permintaan tersebut. Apabila token tidak sesuai, maka permintaan akan ditolak.
+4.2.6 Rate Limiting
+
+     Untuk membatasi jumlah permintaan yang dapat dilakukan dalam periode tertentu, sistem menerapkan mekanisme Rate Limiting menggunakan struktur  data  Map  yang  disimpan  di  memori  aplikasi  (in-memory).
+
+
+Pendekatan ini dipilih karena aplikasi dijalankan pada satu server sehingga tidak memerlukan penyimpanan data pembatasan akses pada basis data maupun layanan cache eksternal.
+     Batas maksimum permintaan yang diterapkan pada sistem dapat dilihat pada Tabel 4.2 berikut.
+Tabel 4.2 Batas Maksimum Rate Limiting
+
+AktivitasBatas MaksimumLogin5 kali per menitTambah Pengguna10 kali per menitBuku Tamu5 kali per menit     Apabila jumlah permintaan melebihi batas yang ditentukan, sistem akan memberikan respons dengan kode status 429 Too Many Requests. Penerapan rate limiting membantu mengurangi risiko serangan brute force, spam, maupun penyalahgunaan layanan.
+4.2.7 Activity Logging
+
+      Sistem menyediakan fitur pencatatan aktivitas pengguna (activity logging) yang disimpan pada tabel login_logs. Secara keseluruhan terdapat 39 titik pencatatan aktivitas yang tersebar pada berbagai modul administrasi. Aktivitas yang dicatat meliputi:
+1. Login berhasil dan login gagal
+
+2. Penambahan, perubahan, dan penghapusan data
+
+3. Perubahan password
+
+4. Pengelolaan pengguna
+
+
+     Fitur ini membantu administrator melakukan pemantauan penggunaan sistem serta mempermudah proses penelusuran apabila terjadi kesalahan maupun penyalahgunaan sistem.
+Tampilan halaman riwayat aktivitas dapat dilihat pada Gambar 4.15 berikut.
+
+
+             Gambar 4.15 Tampilan Halaman Riwayat Aktivitas Tabel 4.3 activity logging
+NoAktivitasKeterangan1LoginMencatat keberhasilan proses login pengguna2LogoutMencatat pengguna keluar dari sistem3Menambah dataMencatat proses penambahan data4Mengubah dataMencatat	perubahan  data	yang	dilakukan
+
+pengguna5Menghapus dataMencatat proses penghapusan data6Mengubah	pengaturan
+
+akunMencatat perubahan profil atau kata sandi
+
+     Berdasarkan Tabel 4.3, sistem mencatat setiap aktivitas penting yang dilakukan pengguna. Informasi tersebut dapat digunakan sebagai audit trail untuk memudahkan administrator dalam melakukan pemantauan aktivitas serta penelusuran apabila terjadi kesalahan atau penyalahgunaan sistem.
+4.2.8 Security Headers
+
+     Untuk meningkatkan keamanan aplikasi web, sistem menerapkan beberapa security headers pada setiap respons yang dikirimkan kepada pengguna. Daftar security headers yang digunakan dapat dilihat pada Tabel
+4.4 berikut.
+
+Tabel 4.4 Daftar Security Headers yang Diterapkan
+
+Security HeaderFungsiContent-Security-PolicyMembatasi sumber konten yang dapat dijalankan
+pada browserStrict-Transport-SecurityMemaksa  penggunaan  HTTPS  pada  seluruh
+koneksiX-Frame-OptionsMencegah serangan Clickjacking melalui iframeX-XSS-ProtectionMemberikan perlindungan tambahan terhadap
+serangan XSS
+
+4.2.9 Optimasi Gambar Menggunakan Format WebP
+
+     Sistem secara otomatis melakukan konversi gambar yang diunggah oleh pengguna ke dalam format WebP sebelum disimpan pada server. Proses konversi ini dilakukan untuk mengurangi ukuran file tanpa mengurangi kualitas gambar secara signifikan sehingga waktu muat halaman menjadi lebih cepat dan penggunaan ruang penyimpanan server menjadi lebih efisien.
+
+
+Gambar hasil konversi disimpan pada direktori public/uploads sesuai kategori masing-masing modul.
+
+
+
+
+4.3 Pengujian Sistem
+
+     Pengujian sistem dilakukan untuk memastikan seluruh fitur yang telah dikembangkan dapat berjalan sesuai dengan kebutuhan pengguna. Pada penelitian ini digunakan dua metode pengujian, yaitu White Box Testing dan Black Box Testing. White Box Testing diterapkan melalui pengujian unit dan integrasi menggunakan Vitest untuk memverifikasi fungsi serta komponen aplikasi pada tingkat kode. Sementara itu, Black Box Testing diterapkan melalui pengujian End-to-End menggunakan Playwright untuk memastikan seluruh fitur dapat berfungsi dengan baik dari sudut pandang pengguna. Selain itu, seluruh proses pengujian dijalankan secara otomatis menggunakan GitHub Actions sebagai bagian dari proses Continuous Integration.
+4.3.1 Pengujian Menggunakan Vitest
+
+     Pengujian unit dan integrasi dilakukan menggunakan framework Vitest. Pengujian ini bertujuan untuk memastikan fungsi-fungsi utama pada sistem dapat berjalan sesuai dengan yang diharapkan. Secara keseluruhan terdapat 237 skenario pengujian yang mencakup validasi fungsi autentikasi, pengelolaan data, API publik, mekanisme keamanan, serta layanan cuaca.
+     Berdasarkan hasil pengujian, seluruh skenario berhasil dijalankan tanpa ditemukan kegagalan. Hasil pengujian Vitest secara lengkap dapat dilihat pada Tabel 4.5 berikut.
+Tabel 4.5 Hasil Pengujian Vitest
+
+
+NoparameterStatus1Frameworkvitest2Test file273Total Test2374statusSeluruh	pengujian
+berhasil (Passed)5Waktu eksekusi9,78 detikCuplikan hasil eksekusi pengujian Vitest dapat dilihat pada Gambar 4.16 berikut.
+
+
+Gambar 4.16 Hasil Pengujian Vitest
+4.3.2 Pengujian Menggunakan Playwright
+
+     Selain pengujian unit, sistem juga diuji menggunakan Playwright untuk melakukan pengujian end-to-end pada antarmuka pengguna dan API. Pengujian dilakukan terhadap halaman administrasi, halaman publik, endpoint API, autentikasi pengguna, pembatasan akses, validasi data, serta mekanisme rate limiting. Berdasarkan hasil pengujian, seluruh 51 skenario berhasil dijalankan dengan status berhasil.
+     Rincian hasil pengujian Playwright dapat dilihat pada Tabel 4.6 dan Gambar 4.17 berikut.
+
+
+
+
+Tabel 4.6 Hasil Pengujian Playwright
+
+Jenis PengujianJumlah SkenarioAutentikasi2Dashboard Admin11Frontend Publik10Display1API Publik9API Authentication3Rate Limiting1Unauthorized Access2Buku Tamu2Beranda2Halaman Publik Tambahan10Total51Cuplikan hasil eksekusi pengujian Playwright dapat dilihat pada Gambar 4.17 berikut.
+
+
+Gambar 4.17 Hasil Pengujian Playwright
+4.3.3 Pengujian Continuous Integration
+
+     Pengujian otomatis juga dilakukan menggunakan GitHub Actions sebagai bagian dari proses Continuous Integration. Setiap perubahan
+
+
+kode yang dikirimkan ke repositori akan menjalankan beberapa tahapan pengujian secara otomatis, meliputi:
+1. Pemeriksaan standar penulisan kode menggunakan ESLint (npm run lint)
+2. Pemeriksaan tipe data menggunakan TypeScript (npm run typecheck)
+
+3. Pengujian menggunakan Vitest (npm run test)
+
+4. Proses build aplikasi Next.js (npm run build)
+
+
+     Hasil	pengujian	menunjukkan	seluruh	tahapan	berhasil dijalankan tanpa ditemukan kesalahan.
+     Cuplikan hasil eksekusi workflow GitHub Actions dapat dilihat pada Gambar 4.18 berikut.
+
+
+Gambar 4.18 Hasil Pengujian GitHub Actions
+
+
+ BAB V PENUTUP
+5.1 Kesimpulan
+
+     Berdasarkan hasil pelaksanaan Praktik Kerja Lapangan di BMKG Stasiun Meteorologi Maritim Tegal, dapat ditarik beberapa kesimpulan sebagai berikut.
+1. Dashboard administrasi pada Sistem Informasi BMKG Stasiun Meteorologi Maritim Tegal berhasil dikembangkan menggunakan framework Next.js 16 dengan dukungan React 19 dan TypeScript. Sistem yang dibangun memiliki tampilan antarmuka yang lebih modern dan responsif dibandingkan sistem sebelumnya yang dikembangkan menggunakan Laravel, sehingga dapat diakses dengan baik pada berbagai ukuran perangkat termasuk perangkat bergerak (mobile device).
+2. Dashboard administrasi berhasil diimplementasikan dengan 12 modul pengelolaan konten (CMS), meliputi dashboard statistik, manajemen prakiraan cuaca, manajemen publikasi, manajemen dokumentasi kegiatan, hero slider, manajemen struktur organisasi, manajemen buku tamu, manajemen layanan, display manager, manajemen pengguna, riwayat aktivitas, dan pengaturan akun. Seluruh modul tersebut menggunakan MySQL sebagai basis data dengan Drizzle ORM sebagai penghubung antara aplikasi dan database, serta telah diuji dan berjalan sesuai dengan kebutuhan pengguna di BMKG Stasiun Meteorologi Maritim Tegal.
+62
+
+
+3. Mekanisme keamanan pada dashboard administrasi berhasil diterapkan secara menyeluruh, meliputi autentikasi Token sesi kustom dengan algoritma HMAC-SHA256, pengamanan kata sandi menggunakan bcrypt, Role-Based Access Control (RBAC) dengan dua tingkatan peran (admin dan user), custom CAPTCHA berbasis teks, CSRF Protection dengan metode double-submit cookie pattern, rate limiting, activity logging dengan 39 titik pencatatan, serta security headers. Seluruh mekanisme keamanan tersebut telah diuji menggunakan Vitest (237 skenario) dan Playwright (51 skenario) serta melalui proses Continuous Integration menggunakan GitHub Actions, dan seluruh skenario pengujian berhasil dijalankan tanpa ditemukan kegagalan.
+     Melalui kegiatan PKL ini, mahasiswa juga memperoleh pengalaman nyata dalam menerapkan ilmu pengembangan sistem informasi berbasis web, khususnya dalam penggunaan framework Next.js, pengelolaan basis data, penerapan keamanan aplikasi web modern, serta pengujian perangkat lunak pada lingkungan kerja profesional.
+5.2 Saran
+
+     Berdasarkan pengalaman selama pelaksanaan Praktik Kerja Lapangan, terdapat beberapa saran yang dapat dijadikan bahan pertimbangan untuk pengembangan dan perbaikan ke depannya.
+
+
+5.2.1 Saran untuk BMKG Stasiun Meteorologi Maritim Tegal
+
+1. Dashboard administrasi yang telah dikembangkan disarankan untuk segera diintegrasikan dengan sistem informasi publik yang sudah berjalan, sehingga pengelolaan konten dapat dilakukan secara terpusat melalui satu panel administrasi yang lebih modern dan aman.
+2. Mekanisme Rate Limiting yang saat ini menggunakan pendekatan in-memory disarankan untuk dikembangkan menggunakan layanan cache eksternal seperti Redis apabila di kemudian hari aplikasi dijalankan pada lebih dari satu server, guna memastikan pembatasan akses tetap berjalan secara konsisten.
+3. Disarankan untuk melakukan pembaruan dan pemeliharaan sistem secara berkala, termasuk memperbarui dependensi dan framework yang digunakan agar sistem tetap aman dari kerentanan keamanan yang ditemukan di kemudian hari.
+4. Fitur backup dan restore pada modul buku tamu disarankan untuk diperluas ke seluruh modul administrasi lainnya, sehingga seluruh data dapat dicadangkan secara berkala dan risiko kehilangan data dapat diminimalkan.
+
+
+5.2.2 Saran untuk Program Studi Teknik Informatika
+
+1. Program studi disarankan untuk lebih memperkuat materi perkuliahan di bidang keamanan aplikasi web, khususnya topik-
+
+
+topik seperti CSRF Protection, Rate Limiting, dan RBAC, mengingat topik-topik tersebut sangat relevan dan banyak dibutuhkan dalam pengembangan sistem informasi pada instansi pemerintah maupun industri.
+2. Program studi disarankan untuk memperkenalkan framework pengembangan web modern seperti Next.js dan React dalam kurikulum perkuliahan, sehingga mahasiswa sudah memiliki bekal yang memadai sebelum terjun ke dunia kerja dan tidak memerlukan waktu adaptasi yang terlalu lama ketika menghadapi teknologi baru di tempat PKL.
+3. Program studi disarankan untuk memperkenalkan praktik pengujian perangkat lunak secara otomatis (automated testing) menggunakan tools seperti Vitest dan Playwright sejak dini dalam perkuliahan, agar mahasiswa terbiasa menerapkan standar kualitas perangkat lunak yang baik.
+
+
+DAFTAR PUSTAKA
+
+[1] F. Panduardi, D. Yusuf, R. E. Febrita, E. S. Haq, A. Bahtiar, dan A. Rohma, "Penerapan Sistem Kependudukan Berbasis Web Sebagai Upaya Peningkatan Pelayanan di Desa Karangbendo," J. Community Dev., vol. 5, no. 3, hlm. 527- 534, Nov 2024, doi: 10.47134/comdev.v5i3.1368.
+[2] E. Aldrian, S. D. A. Kusumaningtyas, Supari, D. E. Nuryanto, dan A. Sopaheluwakan, "Technical and Infrastructure Modality for Extreme Climate Early Warning in Indonesia," dalam Extreme Natural Events: Sustainable Solutions for Developing Countries, A. S. Unnikrishnan, F. Tangang, dan R. J. Durrheim, Ed., Singapore: Springer Nature Singapore, 2022, hlm. 23-49. doi: 10.1007/978-981-19-2511-5_2.
+[3] Dian Minarto dan Kurniawan Teguh Santoso, "Pengembangan Sistem Monitoring Dan Prediksi Cuaca Maritim Untuk Peningkatan Keselamatan Navigasi," Sammajiva J. Penelit. Bisnis Dan Manaj., vol. 1, no. 4, hlm. 231- 238, Nov 2023, doi: 10.47861/sammajiva.v1i4.562.
+[4] V. Mikhael, A. Faisol, dan Y. A. Pranoto, "PENGEMBANGAN SISTEM INFORMASI DOSEN (SIDOSEN) BERBASIS WEB DI LINGKUNGAN ITN MALANG," vol. 9, no. 6, 2025.
+[5] T. Mary dan N. Febriyani, "Peningkatan Keamanan Sistem Informasi Berbasis Laravel 12 dengan Rate Limiting dan Role-Based Access Control (RBAC)," J. Teknol. Dan Sist. Inf. Bisnis, vol. 7, no. 3, hlm. 473-481, Jul 2025, doi: 10.47233/jteksis.v7i3.1976.
+[6] A. A. Zikra, A. Darnilasari, R. Yanuary, dan K. Sari, "Design of Web-Based Project Management System with Multi-Level Role-Based Access Control," J. Comput. Sci. Inform. Eng., vol. 4, no. 3, hlm. 201-215, Jul 2025, doi: 10.55537/cosie.v4i3.1179.
+[7] Benny Hartanto, Ningrum Astriawati, Supartini, dan Damar Kuncoro Yekti, "Pencarian dan Pemanfaatan Informasi Data Badan Meteorologi, Klimatologi, dan Geofisika (BMKG)," INSOLOGI J. Sains Dan Teknol., vol. 1, no. 5, hlm. 553-564, Okt 2022, doi: 10.55123/insologi.v1i5.906.
+
+66
+
+
+[8] M. Putra, "KAJIAN TEKNIS PETA JALAN PERALATAN OPERASIONAL METEOROLOGI DIGITAL DI BADAN METEOROLOGI, KLIMATOLOGI, DAN GEOFISIKA," . COSTING.
+[9] M. I. Bendi dan Y. R. Kaesmetan, "Informasi Peringatan Dini Potensi Kekeringan Meteorologis Provinsi Nusa Tenggara Timur," J. Ilmu Komput. Dan Sist. Inf. JIKOMSI, vol. 7, no. 1, hlm. 46-54, Jan 2024, doi: 10.55338/jikomsi.v7i1.2346.
+[10] S. Wiyono, T. Abidin, G. W. Sasmito, dan M. Huda, "Data Collecting dalam Melakukan Prediksi Pergerakan Ikan dan Lokasi Pancing Ikan Bagi Nelayan di Kota Tegal," J. UNITEK, vol. 15, no. 1, hlm. 27-31, Jun 2022, doi: 10.52072/unitek.v15i1.291.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

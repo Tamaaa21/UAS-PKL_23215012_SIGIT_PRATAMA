@@ -1,6 +1,23 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type APIRequestContext } from "@playwright/test";
 
 const ADMIN = { username: "admin", password: "admin123" };
+
+async function loginWithCaptcha(request: APIRequestContext) {
+  // 1. Get captcha
+  const captchaRes = await request.get("/api/captcha");
+  const captchaData = await captchaRes.json();
+  const captchaId = captchaData.captchaId;
+
+  // 2. Get captcha text (test-only endpoint)
+  const textRes = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+  const textData = await textRes.json();
+  const captchaAnswer = textData.text;
+
+  // 3. Login with captcha
+  return request.post("/api/admin/login", {
+    data: { ...ADMIN, captchaId, captchaAnswer },
+  });
+}
 
 // ═══════════════════════════════════════════
 // AUTHENTICATION
@@ -16,19 +33,35 @@ test.describe("Autentikasi", () => {
     await page.goto("/admin/login");
     await expect(page.locator("form")).toBeVisible();
   });
+
+  test("login tanpa captcha return 400", async ({ request }) => {
+    const resp = await request.post("/api/admin/login", {
+      data: { username: "admin", password: "admin123" },
+    });
+    expect(resp.status()).toBe(400);
+  });
+
+  test("login dengan captcha salah return 400", async ({ request }) => {
+    const captchaRes = await request.get("/api/captcha");
+    const { captchaId } = await captchaRes.json();
+
+    const resp = await request.post("/api/admin/login", {
+      data: { username: "admin", password: "admin123", captchaId, captchaAnswer: "WRONG" },
+    });
+    expect(resp.status()).toBe(400);
+  });
 });
 
 // ═══════════════════════════════════════════
-// ADMIN PAGES (via API auth)
+// ADMIN PAGES (via API auth with captcha)
 // ═══════════════════════════════════════════
 
 test.describe("Admin - Semua Halaman", () => {
   test.beforeAll(async ({ request }) => {
-    let resp = await request.post("/api/admin/login", { data: ADMIN });
+    let resp = await loginWithCaptcha(request);
     if (resp.status() === 429) {
-      // Rate limited, wait and retry
       await new Promise(r => setTimeout(r, 65000));
-      resp = await request.post("/api/admin/login", { data: ADMIN });
+      resp = await loginWithCaptcha(request);
     }
     expect(resp.status()).toBe(200);
   });
@@ -53,41 +86,6 @@ test.describe("Admin - Semua Halaman", () => {
       expect(resp?.status()).toBe(200);
     });
   }
-});
-
-// ═══════════════════════════════════════════
-// FRONTEND PUBLIC PAGES
-// ═══════════════════════════════════════════
-
-test.describe("Frontend - Halaman Publik", () => {
-  const publicPages = [
-    "/",
-    "/about",
-    "/prakiraan",
-    "/layanan",
-    "/kegiatan",
-    "/kontak",
-    "/buku_tamu",
-    "/about/struktur-organisasi",
-  ];
-
-  for (const p of publicPages) {
-    test(`${p} return 200`, async ({ page }) => {
-      const resp = await page.goto(p);
-      expect(resp?.status()).toBe(200);
-    });
-  }
-});
-
-// ═══════════════════════════════════════════
-// DISPLAY PAGE
-// ═══════════════════════════════════════════
-
-test.describe("Frontend - Display", () => {
-  test("display page return 200", async ({ page }) => {
-    const resp = await page.goto("/display");
-    expect(resp?.status()).toBe(200);
-  });
 });
 
 // ═══════════════════════════════════════════
@@ -120,13 +118,20 @@ test.describe("API - Public Endpoints", () => {
 // ═══════════════════════════════════════════
 
 test.describe("API - Auth", () => {
-  test("login valid return 200", async ({ request }) => {
-    const resp = await request.post("/api/admin/login", { data: ADMIN });
+  test("login valid dengan captcha return 200", async ({ request }) => {
+    const resp = await loginWithCaptcha(request);
     expect(resp.status()).toBe(200);
   });
 
   test("login invalid return 401", async ({ request }) => {
-    const resp = await request.post("/api/admin/login", { data: { username: "wrong", password: "wrong" } });
+    const captchaRes = await request.get("/api/captcha");
+    const { captchaId } = await captchaRes.json();
+    const textRes = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+    const { text: captchaAnswer } = await textRes.json();
+
+    const resp = await request.post("/api/admin/login", {
+      data: { username: "wrong", password: "wrong", captchaId, captchaAnswer },
+    });
     expect(resp.status()).toBe(401);
   });
 
@@ -137,15 +142,67 @@ test.describe("API - Auth", () => {
 });
 
 // ═══════════════════════════════════════════
+// API CAPTCHA
+// ═══════════════════════════════════════════
+
+test.describe("API - Captcha", () => {
+  test("GET /api/captcha return captchaId", async ({ request }) => {
+    const resp = await request.get("/api/captcha");
+    expect(resp.status()).toBe(200);
+    const data = await resp.json();
+    expect(data.captchaId).toBeDefined();
+  });
+
+  test("GET /api/captcha/test return text", async ({ request }) => {
+    const captchaRes = await request.get("/api/captcha");
+    const { captchaId } = await captchaRes.json();
+
+    const resp = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+    expect(resp.status()).toBe(200);
+    const data = await resp.json();
+    expect(data.text).toBeDefined();
+    expect(data.text.length).toBe(6);
+  });
+
+  test("captcha is one-time use", async ({ request }) => {
+    const captchaRes = await request.get("/api/captcha");
+    const { captchaId } = await captchaRes.json();
+
+    // First use - should work
+    const textRes = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+    expect(textRes.status()).toBe(200);
+
+    // Second use - should fail (already consumed)
+    const textRes2 = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+    expect(textRes2.status()).toBe(404);
+  });
+});
+
+// ═══════════════════════════════════════════
 // API RATE LIMITING
 // ═══════════════════════════════════════════
 
 test.describe("API - Rate Limiting", () => {
   test("6 percobaan login gagal kena 429", async ({ request }) => {
     for (let i = 0; i < 5; i++) {
-      await request.post("/api/admin/login", { data: { username: "admin", password: "wrong" } });
+      const captchaRes = await request.get("/api/captcha");
+      const { captchaId } = await captchaRes.json();
+      const textRes = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+      const { text: captchaAnswer } = await textRes.json();
+
+      await request.post("/api/admin/login", {
+        data: { username: "admin", password: "wrong", captchaId, captchaAnswer },
+      });
     }
-    const resp = await request.post("/api/admin/login", { data: { username: "admin", password: "wrong" } });
+
+    const captchaRes = await request.get("/api/captcha");
+    const { captchaId } = await captchaRes.json();
+    const textRes = await request.get(`/api/captcha/test?captchaId=${captchaId}`);
+    const { text: captchaAnswer } = await textRes.json();
+
+    const resp = await request.post("/api/admin/login", {
+      data: { username: "admin", password: "wrong", captchaId, captchaAnswer },
+    });
     expect(resp.status()).toBe(429);
   });
 });

@@ -135,3 +135,22 @@ export const login_logs = mysqlTable("login_logs", {
   aktivitas: varchar("aktivitas", { length: 255 }).default("login"),
   created_at: timestamp("created_at").defaultNow(),
 });
+
+export const captcha_sessions = mysqlTable("captcha_sessions", {
+  id: varchar("id", { length: 36 }).primaryKey(),
+  text: varchar("text", { length: 10 }).notNull(),
+  is_used: boolean("is_used").default(false),
+  created_at: timestamp("created_at").defaultNow(),
+  expires_at: timestamp("expires_at").notNull(),
+});
+
+export const rate_limits = mysqlTable("rate_limits", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  count: int("count").notNull().default(1),
+  reset_at: timestamp("reset_at").notNull(),
+});
+
+export const token_blacklist = mysqlTable("token_blacklist", {
+  jti: varchar("jti", { length: 36 }).primaryKey(),
+  expires_at: timestamp("expires_at").notNull(),
+});

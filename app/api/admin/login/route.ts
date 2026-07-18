@@ -6,6 +6,8 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import { logActivity } from "@/lib/activity-log";
 import crypto from "crypto";
 import { loginSchema } from "@/lib/validation";
+import { db, schema } from "@/db";
+import { eq, lt } from "drizzle-orm";
 
 export const runtime = "nodejs";
 
@@ -14,11 +16,11 @@ export async function POST(request: NextRequest) {
     const ip = getClientIp(request);
 
     // Rate limit: 5 attempts per IP per 1 minute
-    const rateCheck = checkRateLimit(`login:${ip}`, 5, 60 * 1000);
+    const rateCheck = await checkRateLimit(`login:${ip}`, 5, 60 * 1000);
     if (!rateCheck.allowed) {
       logActivity(null, `Rate limit terlampaui login dari IP: ${ip}`, null);
       return NextResponse.json(
-        { success: false,         message: "Terlalu banyak percobaan login. Silakan coba lagi dalam 1 menit." },
+        { success: false, message: "Terlalu banyak percobaan login. Silakan coba lagi dalam 1 menit." },
         {
           status: 429,
           headers: {
@@ -34,6 +36,42 @@ export async function POST(request: NextRequest) {
     const parsed = loginSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ message: "Username dan password harus diisi" }, { status: 400 });
+    }
+
+    // Server-side CAPTCHA validation
+    const { captchaId, captchaAnswer } = body;
+    if (!captchaId || !captchaAnswer) {
+      return NextResponse.json({ success: false, message: "CAPTCHA wajib diisi" }, { status: 400 });
+    }
+
+    // Clean expired captchas
+    await db.delete(schema.captcha_sessions)
+      .where(lt(schema.captcha_sessions.expires_at, new Date()));
+
+    // Find captcha — must not be expired and not already used
+    const [captchaRecord] = await db.select()
+      .from(schema.captcha_sessions)
+      .where(eq(schema.captcha_sessions.id, captchaId))
+      .limit(1);
+
+    if (!captchaRecord) {
+      return NextResponse.json({ success: false, message: "CAPTCHA tidak valid atau sudah kedaluwarsa" }, { status: 400 });
+    }
+
+    // Check if already used
+    if (captchaRecord.is_used) {
+      return NextResponse.json({ success: false, message: "CAPTCHA sudah digunakan" }, { status: 400 });
+    }
+
+    // Mark as used (one-time use)
+    await db.update(schema.captcha_sessions)
+      .set({ is_used: true })
+      .where(eq(schema.captcha_sessions.id, captchaId));
+
+    // Compare captcha (case-insensitive)
+    if (captchaRecord.text.toLowerCase() !== captchaAnswer.toLowerCase()) {
+      logActivity(null, `CAPTCHA salah dari IP: ${ip}`, parsed.data.username);
+      return NextResponse.json({ success: false, message: "CAPTCHA salah" }, { status: 400 });
     }
 
     const { username, password } = parsed.data;

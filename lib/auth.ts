@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 import { createSessionToken as edgeCreateToken, verifySessionToken as edgeVerifyToken, COOKIE_NAME, CSRF_COOKIE_NAME } from "./auth-edge";
+import { db, schema } from "@/db";
+import { eq } from "drizzle-orm";
 
 export { COOKIE_NAME, CSRF_COOKIE_NAME, SESSION_DURATION_MS } from "./auth-edge";
 
@@ -68,4 +70,36 @@ export function clearCsrfCookie(response: NextResponse) {
     path: "/",
     maxAge: 0,
   });
+}
+
+export async function blacklistToken(jti: string, expiresAt: Date) {
+  try {
+    await db.insert(schema.token_blacklist)
+      .values({ jti, expires_at: expiresAt })
+      .onDuplicateKeyUpdate({ set: { expires_at: expiresAt } });
+  } catch (error) {
+    console.error("Failed to blacklist token:", error);
+  }
+}
+
+export async function isTokenBlacklisted(jti: string): Promise<boolean> {
+  try {
+    const [record] = await db.select()
+      .from(schema.token_blacklist)
+      .where(eq(schema.token_blacklist.jti, jti))
+      .limit(1);
+    return !!record;
+  } catch {
+    return false;
+  }
+}
+
+export async function cleanupBlacklist() {
+  try {
+    const now = new Date();
+    await db.delete(schema.token_blacklist)
+      .where(eq(schema.token_blacklist.jti, ""));
+  } catch {
+    // ignore
+  }
 }

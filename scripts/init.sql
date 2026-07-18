@@ -194,6 +194,28 @@ CREATE TABLE IF NOT EXISTS login_logs (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- Captcha sessions (server-side validation)
+CREATE TABLE IF NOT EXISTS captcha_sessions (
+  id VARCHAR(36) PRIMARY KEY,
+  text VARCHAR(10) NOT NULL,
+  is_used BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expires_at TIMESTAMP NOT NULL
+);
+
+-- Rate limiting
+CREATE TABLE IF NOT EXISTS rate_limits (
+  id VARCHAR(255) PRIMARY KEY,
+  count INT NOT NULL DEFAULT 1,
+  reset_at TIMESTAMP NOT NULL
+);
+
+-- Token blacklist for secure logout
+CREATE TABLE IF NOT EXISTS token_blacklist (
+  jti VARCHAR(36) PRIMARY KEY,
+  expires_at TIMESTAMP NOT NULL
+);
+
 -- Insert default admin user (password: admin123)
 -- NOTE: Password is bcrypt-hashed. To create with a custom password, run:
 --   node scripts/seed.js

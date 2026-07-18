@@ -10,7 +10,7 @@ export type LoginResult =
 
 export async function login(username: string, password: string, ip: string): Promise<LoginResult> {
   const rateKey = `login:${ip}:${username}`;
-  const rateCheck = checkRateLimit(rateKey, 5, 60 * 1000);
+  const rateCheck = await checkRateLimit(rateKey, 5, 60 * 1000);
   if (!rateCheck.allowed) {
     return { success: false, response: NextResponse.json({ message: "Terlalu banyak percobaan login. Silakan coba lagi dalam 1 menit." }, { status: 429 }) };
   }
