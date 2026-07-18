@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AlertCircle, LogIn, User, Lock, RefreshCw } from "lucide-react";
+import { AlertCircle, LogIn, User, Lock, RefreshCw, Eye, EyeOff } from "lucide-react";
 import { Input } from '@/components/ui/input';
 
 export default function AdminLoginPage() {
@@ -16,17 +16,34 @@ export default function AdminLoginPage() {
   const [captchaText, setCaptchaText] = useState("");
   const [captchaInput, setCaptchaInput] = useState("");
   const [captchaLoading, setCaptchaLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const fetchCaptcha = async () => {
     setCaptchaLoading(true);
     try {
       const res = await fetch("/api/captcha");
-      const data = await res.json();
+      const resText = await res.text();
+      let data;
+      try {
+        data = JSON.parse(resText);
+      } catch (e) {
+        console.error("Response bukan JSON (/api/captcha):", resText);
+        return;
+      }
+
       if (data.success && data.captchaId) {
         setCaptchaId(data.captchaId);
         // Get captcha text from test endpoint (server-side)
         const textRes = await fetch(`/api/captcha/test?captchaId=${data.captchaId}`);
-        const textData = await textRes.json();
+        const testText = await textRes.text();
+        let textData;
+        try {
+          textData = JSON.parse(testText);
+        } catch (e) {
+          console.error("Response bukan JSON (/api/captcha/test):", testText);
+          return;
+        }
+
         if (textData.success) {
           setCaptchaText(textData.text);
         }
@@ -72,9 +89,16 @@ export default function AdminLoginPage() {
 
       let data: Record<string, unknown> | null = null;
       try {
-        data = await response.json();
+        const resText = await response.text();
+        try {
+          data = JSON.parse(resText);
+        } catch {
+          console.error("Response login bukan JSON:", resText);
+          setError("Terjadi kesalahan pada respons server (Format tidak valid)");
+          return;
+        }
       } catch {
-        setError("Terjadi kesalahan pada respons server");
+        setError("Gagal membaca respons server");
         return;
       }
 
@@ -194,13 +218,21 @@ export default function AdminLoginPage() {
                   <Lock size={18} />
                 </div>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Masukkan password"
-                  className="pl-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl"
+                  className="pl-10 pr-10 bg-slate-50 border-slate-200 text-slate-800 placeholder:text-slate-400 focus-visible:ring-[#003399] focus-visible:border-[#003399] h-12 rounded-xl transition-all"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-[#003399] focus:outline-none transition-colors"
+                  aria-label={showPassword ? "Sembunyikan password" : "Tampilkan password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 
@@ -212,14 +244,14 @@ export default function AdminLoginPage() {
                     <RefreshCw size={14} />
                   </button>
                 </div>
-                <div className="flex items-center gap-3">
-                  <canvas ref={canvasRef} width={180} height={50} className="rounded-md border border-gray-300 shadow-sm" />
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <canvas ref={canvasRef} width={180} height={50} className="w-full sm:w-[180px] rounded-md border border-gray-300 shadow-sm" />
                   <input
                     type="text"
                     value={captchaInput}
                     onChange={(e) => setCaptchaInput(e.target.value)}
                     placeholder="Ketik kode"
-                    className="flex-1 h-10 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#003399] focus:border-[#003399]"
+                    className="w-full sm:flex-1 h-10 px-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#003399] focus:border-[#003399]"
                     required
                   />
                 </div>

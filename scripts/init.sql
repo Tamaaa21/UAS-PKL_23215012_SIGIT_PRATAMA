@@ -1,5 +1,5 @@
 -- MySQL Schema for BMKG Maritim Tegal
--- Run: mysql -u root - < pscripts/init.sql
+-- Run: mysql -u root - < scripts/init.sql
 
 CREATE DATABASE IF NOT EXISTS bmkg_maritim CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE bmkg_maritim;
@@ -9,20 +9,11 @@ CREATE TABLE IF NOT EXISTS users (
   id VARCHAR(36) PRIMARY KEY,
   username VARCHAR(255) NOT NULL UNIQUE,
   password TEXT NOT NULL,
-  role VARCHAR(50) NOT NULL DEFAULT 'karyawan',
+  role VARCHAR(50) NOT NULL DEFAULT 'user',
   nama VARCHAR(255) DEFAULT NULL,
   is_active BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Admin users (legacy)
-CREATE TABLE IF NOT EXISTS admin_users (
-  id VARCHAR(36) PRIMARY KEY,
-  user_id VARCHAR(36) NOT NULL UNIQUE,
-  username VARCHAR(255) NOT NULL UNIQUE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Buku tamu
@@ -35,40 +26,6 @@ CREATE TABLE IF NOT EXISTS buku_tamu (
   keperluan TEXT NOT NULL,
   foto_url TEXT DEFAULT NULL,
   foto_data LONGTEXT DEFAULT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Layanan berbayar
-CREATE TABLE IF NOT EXISTS layanan_berbayar (
-  id VARCHAR(36) PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  nama_lengkap VARCHAR(255) NOT NULL,
-  alamat TEXT NOT NULL,
-  instansi VARCHAR(255) DEFAULT NULL,
-  no_hp VARCHAR(50) NOT NULL,
-  ktp_file_path TEXT DEFAULT NULL,
-  surat_file_path TEXT DEFAULT NULL,
-  form_file_path TEXT DEFAULT NULL,
-  status VARCHAR(50) DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Layanan nol rupiah
-CREATE TABLE IF NOT EXISTS layanan_nol_rupiah (
-  id VARCHAR(36) PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  nama_lengkap VARCHAR(255) NOT NULL,
-  alamat TEXT NOT NULL,
-  instansi VARCHAR(255) DEFAULT NULL,
-  no_hp VARCHAR(50) NOT NULL,
-  tipe VARCHAR(50) NOT NULL,
-  ktp_file_path TEXT DEFAULT NULL,
-  surat_file_path TEXT DEFAULT NULL,
-  form_file_path TEXT DEFAULT NULL,
-  photo_path TEXT DEFAULT NULL,
-  status VARCHAR(50) DEFAULT 'pending',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -215,13 +172,6 @@ CREATE TABLE IF NOT EXISTS token_blacklist (
   jti VARCHAR(36) PRIMARY KEY,
   expires_at TIMESTAMP NOT NULL
 );
-
--- Insert default admin user (password: admin123)
--- NOTE: Password is bcrypt-hashed. To create with a custom password, run:
---   node scripts/seed.js
--- (requires .env.local with MySQL credentials)
--- INSERT INTO users (id, username, password, role, nama, is_active)
--- VALUES (UUID(), 'admin', '$2a$12$...', 'super_admin', 'Administrator', true);
 
 -- Insert default prakiraan categories
 INSERT INTO prakiraan_categories (id, name, slug, description, icon) VALUES

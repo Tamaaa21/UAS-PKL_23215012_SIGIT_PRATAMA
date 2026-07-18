@@ -1,19 +1,18 @@
-# SIGIT PRATAMA / 23215012
-
 # BMKG Maritim Tegal
 
 Portal informasi cuaca maritim dan layanan publik berbasis Next.js untuk Stasiun Meteorologi Maritim Tegal – BMKG.
 
-# SIGIT PRATAMA / 23215012
+# SIGIT PRATAMA (23215012)
+
 ## Teknologi Utama
 
 - **Framework:** Next.js 16 (React 19 + TypeScript)
 - **Styling:** Tailwind CSS + shadcn/ui
 - **Database:** MySQL + Drizzle ORM
-- **Auth:** Custom JWT (HMAC-SHA256) + bcrypt
+- **Auth:** JWT HS256 (jose) + bcryptjs
 - **Animasi:** Framer Motion
 - **Form:** React Hook Form + Zod
-- **Testing:** Vitest (236 tests)
+- **Testing:** Vitest (210 tests) + Playwright (36 tests)
 - **CI/CD:** GitHub Actions
 
 ## Fitur
@@ -32,7 +31,7 @@ Portal informasi cuaca maritim dan layanan publik berbasis Next.js untuk Stasiun
 - Manajemen prakiraan cuaca
 - Manajemen publikasi / buletin
 - Manajemen dokumentasi kegiatan
-- Slider hero home
+- Slider hero home (file + URL)
 - Struktur organisasi
 - Data buku tamu (CRUD + backup/restore)
 - Kelola layanan
@@ -42,11 +41,13 @@ Portal informasi cuaca maritim dan layanan publik berbasis Next.js untuk Stasiun
 - Pengaturan (ganti password)
 
 ### Keamanan
+- **JWT HS256** — autentikasi via jose library
+- **Token Blacklist** — secure logout via token_blacklist table
+- **Server-Side CAPTCHA** — validasi di database (one-time use)
 - **CSRF Protection** — double-submit cookie pattern
-- **Rate Limiting** — login (5/menit), create user (10/menit), buku tamu (5/menit)
-- **Timing-safe** token comparison
-- **RBAC** — role-based access control (super_admin, admin, karyawan)
-- **Audit logging** — 39 log points untuk operasi sensitif
+- **Rate Limiting** — MySQL-based (login 5/menit, create user 10/menit, buku tamu 5/menit)
+- **RBAC** — role-based access control (admin, user)
+- **Audit logging** — 39+ log points untuk operasi sensitif
 - **Security headers** — CSP, HSTS, X-Frame-Options, X-XSS-Protection
 
 ## Cara Install & Jalankan
@@ -69,12 +70,32 @@ cd BMKG-Maritim-Tegal
 # 2. Install dependency
 npm install
 
-# 3. Konfigurasi environment
+# 3. Buat database dan tabel
+mysql -u root - < scripts/init.sql
+
+# 4. Insert admin user
+node scripts/seed.js
+
+# 5. Konfigurasi environment
 cp .env.example .env
 # Edit .env sesuai konfigurasi server
 
-# 4. Jalankan development
+# 6. Jalankan development
 npm run dev
+```
+
+### Insert Admin User
+
+```bash
+# Menggunakan seed script (password: admin123)
+node scripts/seed.js
+```
+
+Atau manual via MySQL:
+```sql
+-- Password: admin123 (bcrypt hashed)
+INSERT INTO users (id, username, password, role, nama, is_active)
+VALUES (UUID(), 'admin', '$2a$12$...', 'admin', 'Administrator', true);
 ```
 
 ### Build & Production
@@ -87,10 +108,11 @@ npm run start
 ### Testing
 
 ```bash
-npm run test           # Run semua tests (236 tests)
+npm run test           # Run semua tests (210 tests)
 npm run test:watch     # Watch mode
 npm run test:coverage  # Coverage report
 npm run typecheck      # TypeScript check
+npx playwright test    # E2E tests (36 tests)
 ```
 
 ## Environment Variables
@@ -103,16 +125,13 @@ npm run typecheck      # TypeScript check
 | `MYSQL_PASSWORD` | Ya | Password MySQL |
 | `MYSQL_DATABASE` | Ya | Nama database |
 | `TOKEN_SECRET` | Ya | Secret untuk JWT (random hex 32 bytes) |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Tidak | reCAPTCHA site key |
-| `RECAPTCHA_SECRET_KEY` | Tidak | reCAPTCHA secret key |
-| `BMKG_API_URL` | Tidak | URL API BMKG |
+| `BMKG_API_URL` | Ya | URL API BMKG |
 | `BMKG_CACHE_TTL` | Tidak | Cache TTL (ms) |
-| `OPENWEATHER_API_KEY` | Tidak | API key OpenWeatherMap |
 | `NEXT_PUBLIC_WHATSAPP_PHONE` | Tidak | Nomor WhatsApp |
 
 ## Database
 
-10 tabel: `users`, `buku_tamu`, `hero_images`, `prakiraan_images`, `prakiraan_categories`, `kegiatan_documents`, `layanan_cards`, `struktur_organisasi`, `display_slides`, `publications`, `login_logs`.
+14 tabel: `users`, `login_logs`, `captcha_sessions`, `rate_limits`, `token_blacklist`, `prakiraan_categories`, `prakiraan_images`, `kegiatan_documents`, `hero_images`, `struktur_organisasi`, `buku_tamu`, `layanan_cards`, `display`, `publications`.
 
 Migration: `npx drizzle-kit push`
 
@@ -129,6 +148,7 @@ Migration: `npx drizzle-kit push`
 app/
 ├── api/                    # API routes
 │   ├── admin/              # Admin endpoints (protected)
+│   ├── captcha/            # Server-side CAPTCHA
 │   ├── submit/             # Public endpoints
 │   ├── weather/            # Weather proxy
 │   └── bmkg/               # BMKG API proxy
@@ -148,18 +168,4 @@ types/                      # TypeScript types
 scripts/                    # Seed + test scripts
 ```
 
-## Deployment (VPS BMKG)
-
-Project di-deploy ke VPS BMKG sendiri.
-
-```bash
-# Build
-npm run build
-
-# Jalankan dengan PM2
-pm2 start npm --name "bmkg-tegal" -- start
-```
-
-## License
-
-Internal — Stasiun Meteorologi Maritim Tegal, BMKG.
+<!--  -->
