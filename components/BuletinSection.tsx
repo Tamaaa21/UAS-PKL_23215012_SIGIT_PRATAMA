@@ -1,20 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Download, FileText, ChevronRight } from "lucide-react";
 
-export default function BuletinSection() {
-  const [buletin, setBuletin] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export default function BuletinSection({ initialBuletin }: { initialBuletin?: any }) {
+  const [buletin, setBuletin] = useState<any>(initialBuletin || null);
+  const [loading, setLoading] = useState(!initialBuletin);
 
   useEffect(() => {
+    if (initialBuletin) return;
     let mounted = true;
     async function fetchBuletin() {
       try {
         const res = await fetch("/api/admin/publications");
         const json = await res.json();
         if (mounted && json?.success && Array.isArray(json.data) && json.data.length > 0) {
-          // Get the latest publication (first one)
           setBuletin(json.data[0]);
         }
       } catch (e) {
@@ -25,7 +26,7 @@ export default function BuletinSection() {
     }
     fetchBuletin();
     return () => { mounted = false; };
-  }, []);
+  }, [initialBuletin]);
 
   if (loading || !buletin) return null;
 
@@ -36,11 +37,13 @@ export default function BuletinSection() {
           {/* Left Side: Cover Image inside a minimalist frame */}
           <div className="w-full md:w-1/2 flex justify-center relative">
             <div className="relative w-3/5 max-w-sm p-3 bg-white rounded-2xl shadow-2xl border border-gray-200/80 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-              <img
+              <Image
                 src={buletin.cover_url || buletin.url}
                 alt={buletin.title}
+                width={400}
+                height={560}
                 className="w-full h-auto rounded-xl border border-gray-100"
-                loading="lazy"
+                unoptimized
               />
             </div>
             {/* Decorative background blob */}

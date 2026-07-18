@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { isVideoUrl } from "@/lib/utils";
 import { getYoutubeVideoId, isYoutubeUrl } from "@/lib/youtube";
 
 const defaultImages: string[] = [];
 
-export default function HeroBackgroundSlideshow({ onImageChange }: { onImageChange?: (index: number) => void }) {
+export default function HeroBackgroundSlideshow({ onImageChange, initialImages }: { onImageChange?: (index: number) => void; initialImages?: string[] }) {
   const [current, setCurrent] = useState(0);
-  const [images, setImages] = useState<string[]>(defaultImages);
+  const [images, setImages] = useState<string[]>(initialImages || defaultImages);
 
   useEffect(() => {
+    if (initialImages) return;
     let mounted = true;
     async function fetchHero() {
       try {
@@ -29,7 +31,7 @@ export default function HeroBackgroundSlideshow({ onImageChange }: { onImageChan
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [initialImages]);
 
   useEffect(() => {
     if (images.length === 0) return;
@@ -82,12 +84,14 @@ export default function HeroBackgroundSlideshow({ onImageChange }: { onImageChan
               playsInline
             />
           ) : (
-            <img
+            <Image
               src={images[current]}
               alt="Hero background"
-              className="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority={current === 0}
+              unoptimized
             />
           )}
         </motion.div>

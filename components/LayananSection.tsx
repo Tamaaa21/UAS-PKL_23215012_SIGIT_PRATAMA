@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Database, 
@@ -19,7 +20,7 @@ import {
 interface LayananCard {
   id: string;
   nama_layanan: string;
-  deskripsi: string;
+  deskripsi: string | null;
   url_google_form: string | null;
   cover_url?: string | null;
 }
@@ -92,12 +93,13 @@ const getServiceConfig = (title: string) => {
   };
 };
 
-export default function LayananSection({ limit }: { limit?: number }) {
-  const [services, setServices] = useState<LayananCard[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function LayananSection({ limit, initialServices }: { limit?: number; initialServices?: LayananCard[] }) {
+  const [services, setServices] = useState<LayananCard[]>(initialServices || []);
+  const [loading, setLoading] = useState(!initialServices);
   const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
+    if (initialServices) return;
     async function fetchServices() {
       try {
         const res = await fetch("/api/admin/layanan-cards");
@@ -115,7 +117,7 @@ export default function LayananSection({ limit }: { limit?: number }) {
       }
     }
     fetchServices();
-  }, []);
+  }, [initialServices]);
 
   const handleCardClick = (url: string | null) => {
     if (url && url.trim() !== "") {
@@ -180,11 +182,13 @@ export default function LayananSection({ limit }: { limit?: number }) {
                   <div className="relative w-full h-36 overflow-hidden shrink-0">
                     {svc.cover_url ? (
                       <>
-                        <img 
+                        <Image 
                           src={svc.cover_url} 
                           alt={svc.nama_layanan} 
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
-                          loading="lazy"
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500" 
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          unoptimized
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
                       </>

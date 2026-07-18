@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { X, ChevronRight, Calendar } from "lucide-react";
 const activities = [
   {
@@ -73,57 +74,61 @@ function getYouTubeId(url: string): string | null {
   return null;
 }
 
-export default function KegiatanSection({ limit }: { limit?: number }) {
+export default function KegiatanSection({ limit, initialItems }: { limit?: number; initialItems?: any[] }) {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [lightbox, setLightbox] = useState<null | any>(null);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>(initialItems || []);
   const [brokenImgs, setBrokenImgs] = useState<Set<string>>(new Set());
 
   const markBroken = (url: string) => {
     if (!brokenImgs.has(url)) setBrokenImgs(new Set(brokenImgs).add(url));
   };
 
+  const processItems = useCallback((data: any[]) => {
+    return data.map((d: any) => {
+      const imgs: string[] = [];
+      const imgUrls = Array.isArray(d.image_urls) ? d.image_urls : [];
+      if (imgUrls.length > 0) {
+        imgs.push(...imgUrls.filter(Boolean));
+      } else if (d.url && !d.url.includes('img.youtube.com')) {
+        imgs.push(d.url);
+      } else if (d.url) {
+        imgs.push(d.url);
+      }
+      if (d.youtube_url) {
+        const ytId = getYouTubeId(d.youtube_url);
+        if (ytId && !imgs.some(i => i.includes('img.youtube.com'))) {
+          imgs.push(`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`);
+        }
+      }
+      return {
+        title: d.title,
+        date: d.event_date ? new Date(d.event_date).toLocaleDateString('id-ID') : (new Date(d.created_at).toLocaleDateString('id-ID')),
+        category: d.category || 'Lainnya',
+        image: imgs[0] || '',
+        images: imgs,
+        description: d.description || '',
+        youtube_url: d.youtube_url || '',
+        file_type: d.file_type || '',
+      };
+    });
+  }, []);
+
   useEffect(() => {
+    if (initialItems) return;
     let mounted = true;
     fetch('/api/admin/kegiatan-documents').then(r => r.json()).then((b) => {
       if (!mounted) return;
       if (b?.success) {
-        const data = b.data.map((d: any) => {
-          const imgs: string[] = [];
-          const imgUrls = Array.isArray(d.image_urls) ? d.image_urls : [];
-          if (imgUrls.length > 0) {
-            imgs.push(...imgUrls.filter(Boolean));
-          } else if (d.url && !d.url.includes('img.youtube.com')) {
-            imgs.push(d.url);
-          } else if (d.url) {
-            imgs.push(d.url);
-          }
-          if (d.youtube_url) {
-            const ytId = getYouTubeId(d.youtube_url);
-            if (ytId && !imgs.some(i => i.includes('img.youtube.com'))) {
-              imgs.push(`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`);
-            }
-          }
-          return {
-            title: d.title,
-            date: d.event_date ? new Date(d.event_date).toLocaleDateString('id-ID') : (new Date(d.created_at).toLocaleDateString('id-ID')),
-            category: d.category || 'Lainnya',
-            image: imgs[0] || '',
-            images: imgs,
-            description: d.description || '',
-            youtube_url: d.youtube_url || '',
-            file_type: d.file_type || '',
-          };
-        });
-        setItems(data);
+        setItems(processItems(b.data));
       } else {
         setItems(activities);
       }
     }).catch(() => setItems(activities));
     return () => { mounted = false };
-  }, []);
+  }, [initialItems, processItems]);
 
   const filtered = activeCategory === 'Semua' ? items : items.filter(a => a.category === activeCategory);
   const displayItems = limit ? filtered.slice(0, limit) : filtered;
@@ -182,12 +187,14 @@ export default function KegiatanSection({ limit }: { limit?: number }) {
               onClick={() => openLightbox(item)}
             >
               {item.image && !brokenImgs.has(item.image) && isImageFile(item.image) ? (
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
-                      loading="lazy"
+                      fill
                   onError={() => markBroken(item.image)}
-                  className="w-full h-full object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-500"
+                  className="object-contain bg-gray-100 group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  unoptimized
                 />
               ) : (
                 <div className="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
@@ -277,12 +284,14 @@ export default function KegiatanSection({ limit }: { limit?: number }) {
                   )}
 
                   {/* Image or YouTube Thumbnail */}
-                  <div className="relative">
-                    <img
+                  <div className="relative flex items-center justify-center w-full max-h-[45vh] md:max-h-[85vh]">
+                    <Image
                       src={lightbox.images?.[lightboxImageIndex] || lightbox.image}
                       alt={lightbox.title}
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                      className="max-w-full max-h-[45vh] md:max-h-[85vh] object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.6)] border border-white/10"
+                      fill
+                      className="object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.6)] border border-white/10"
+                      sizes="90vw"
+                      unoptimized
                     />
                     {lightbox.images?.[lightboxImageIndex]?.includes('img.youtube.com') && (
                       <button
@@ -320,11 +329,11 @@ export default function KegiatanSection({ limit }: { limit?: number }) {
                         <button
                           key={idx}
                           onClick={(e) => { e.stopPropagation(); goToSlide(idx); }}
-                          className={`w-10 h-8 rounded border-2 shrink-0 overflow-hidden transition-all ${
+                          className={`relative w-10 h-8 rounded border-2 shrink-0 overflow-hidden transition-all ${
                             idx === lightboxImageIndex ? 'border-white opacity-100' : 'border-transparent opacity-50 hover:opacity-75'
                           }`}
                         >
-                          <img src={url} className="w-full h-full object-cover" alt="" />
+                          <Image src={url} alt="" fill className="object-cover" sizes="40px" unoptimized />
                         </button>
                       ))}
                     </div>

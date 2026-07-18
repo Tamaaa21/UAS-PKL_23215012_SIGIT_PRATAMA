@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Required: user-uploaded images from Supabase storage use dynamic URLs
-  // that Next.js cannot optimize at build time.
-  images: { unoptimized: true },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "img.youtube.com" },
+      { protocol: "https", hostname: "data.bmkg.go.id" },
+    ],
+  },
 
   async headers() {
     return [

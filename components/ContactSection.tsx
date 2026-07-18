@@ -1,5 +1,3 @@
-"use client";
-
 import { MapPin, Phone, Mail, Clock, MessageCircle } from "lucide-react";
 
 const contactInfo = [

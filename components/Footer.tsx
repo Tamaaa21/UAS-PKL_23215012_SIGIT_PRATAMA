@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Facebook, Instagram, Youtube, Twitter, MapPin, Phone, Mail } from "lucide-react";
 import Script from "next/script";
@@ -111,8 +112,8 @@ export default function Footer() {
             {/* Brand */}
             <div className="lg:col-span-3">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
-                  <img src="/bmkg-logo.png" alt="B" className="w-full h-full object-contain p-1" />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 relative">
+                  <Image src="/bmkg-logo.png" alt="BMKG" width={48} height={48} className="object-contain p-1" />
                 </div>
                 <div>
                   <p className="font-bold text-sm leading-tight">STASIUN METEOROLOGI</p>

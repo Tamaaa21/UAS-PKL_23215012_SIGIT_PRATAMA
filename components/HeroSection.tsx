@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import HeroBackgroundSlideshow from "./HeroBackgroundSlideshow";
 
-export default function HeroSection() {
+export default function HeroSection({ initialImages }: { initialImages?: string[] }) {
   const [slideIndex, setSlideIndex] = useState(0);
   const title = "STASIUN METEOROLOGI MARITIM";
   const highlight = "TEGAL";
@@ -35,7 +35,7 @@ export default function HeroSection() {
     <section id="home" className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden">
       {/* Background Slideshow (realistic BMKG building daylight image) */}
       <div className="absolute inset-0 z-0 w-full h-full">
-        <HeroBackgroundSlideshow onImageChange={setSlideIndex} />
+        <HeroBackgroundSlideshow onImageChange={setSlideIndex} initialImages={initialImages} />
       </div>
 
       {/* Main Background Blue Gradient Overlay (around 40% - 50% opacity, rich blue, clear sky visible) */}

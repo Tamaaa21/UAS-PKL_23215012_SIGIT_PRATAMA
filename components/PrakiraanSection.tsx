@@ -2,6 +2,7 @@
 
 import { ChevronRight, AlertCircle, Calendar, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getIcon } from "@/lib/prakiraan-icons";
 
@@ -249,15 +250,16 @@ const ExpiredPopup = ({
   </div>
 );
 
-export default function PrakiraanSection({ limit }: { limit?: number }) {
+export default function PrakiraanSection({ limit, initialCards, initialCategories }: { limit?: number; initialCards?: any[]; initialCategories?: any[] }) {
   const router = useRouter();
-  const [cards, setCards] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [cards, setCards] = useState<any[]>(initialCards || []);
+  const [categories, setCategories] = useState<any[]>(initialCategories || []);
+  const [loading, setLoading] = useState(!initialCards);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [expiredPopup, setExpiredPopup] = useState<{ title: string; isScheduled?: boolean; isUnupdated?: boolean; slug?: string } | null>(null);
 
   useEffect(() => {
+    if (initialCards) return;
     let mounted = true;
     async function fetchData() {
       try {
@@ -283,7 +285,7 @@ export default function PrakiraanSection({ limit }: { limit?: number }) {
     }
     fetchData();
     return () => { mounted = false; };
-  }, []);
+  }, [initialCards]);
 
   const now = new Date();
 
@@ -396,11 +398,13 @@ export default function PrakiraanSection({ limit }: { limit?: number }) {
                   style={{ animationDelay: `${i * 50}ms`, opacity: 0 }}
                 >
                   <div className="relative h-44 w-full overflow-hidden flex-shrink-0">
-                    <img
+                    <Image
                       src={card.url}
                       alt={card.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-60" />
                     <div className="absolute top-4 left-4 w-9 h-9 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white">

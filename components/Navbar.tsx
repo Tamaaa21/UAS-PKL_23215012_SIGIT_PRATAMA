@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Clock } from "lucide-react";
 
@@ -80,8 +81,8 @@ export default function Navbar({ minimal = false }: { minimal?: boolean }) {
             }}
             className="flex items-center gap-2 sm:gap-3"
           >
-            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 bg-white">
-              <img src="/bmkg-logo.png" alt="B" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 bg-white relative">
+              <Image src="/bmkg-logo.png" alt="BMKG" width={40} height={40} className="object-contain" />
             </div>
             {/* Tambahkan w-full dan text-left di bawah ini */}
             <div className="block w-full text-left">

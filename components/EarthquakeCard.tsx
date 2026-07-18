@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   AlertTriangle, 
@@ -157,12 +158,13 @@ export default function EarthquakeCard() {
                        Visualisasi Shakemap
                     </div>
                     <div className="w-full aspect-[4/3] sm:aspect-square relative rounded-xl sm:rounded-2xl overflow-hidden bg-white flex items-center justify-center border border-gray-100 shadow-md">
-                      <img
+                      <Image
                         src={shakemapUrl}
                         alt="BMKG Shakemap"
-                        className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                        fill
+                        className="object-contain transition-transform duration-700 group-hover:scale-105"
                         onError={() => setImgError(true)}
-                        loading="lazy"
+                        sizes="(max-width: 1024px) 100vw, 42vw"
                       />
                     </div>
                   </div>
