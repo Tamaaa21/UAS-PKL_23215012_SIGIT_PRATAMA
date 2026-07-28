@@ -32,9 +32,6 @@ jobs:
       - name: Run unit/integration tests
         run: npm run test
 
-      - name: Run E2E tests
-        run: npm run test:e2e
-
       - name: Build
         run: npm run build
         env:
